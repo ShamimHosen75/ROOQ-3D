@@ -3,7 +3,7 @@ import { SLIDES, SILHOUETTES } from './heroData.js';
 import { HeroGL } from './heroGL.js';
 
 const COUNT = SLIDES.length;
-const PER_SLIDE = 1.5; // viewport heights of scroll per slide change
+const PER_SLIDE = 1.8; // viewport heights of scroll per slide change
 const br = (s) => s.split('\n').join('<br />');
 const ARROW = '<svg><use href="#arrow" /></svg>';
 
@@ -184,7 +184,7 @@ export function setupHero({ onReady }) {
   dots.forEach((d, i) =>
     d.addEventListener('click', () => {
       if (!trigger) return;
-      scrollTo(trigger.start + (i / (COUNT - 1)) * (trigger.end - trigger.start), { duration: 1.4 + Math.abs(i - active) * 0.25 });
+      scrollTo(trigger.start + (i / (COUNT - 1)) * (trigger.end - trigger.start), { duration: 2 + Math.abs(i - active) * 0.35 });
     }),
   );
   $$('.js-cta', section).forEach((a) =>
@@ -224,7 +224,7 @@ export function setupHero({ onReady }) {
         start: 'top top',
         end: () => `+=${window.innerHeight * PER_SLIDE * (COUNT - 1)}`,
         pin: true,
-        scrub: rm ? true : 0.9,
+        scrub: rm ? true : 1.6,
         invalidateOnRefresh: true,
         snap: lenisNow() ? undefined : { snapTo: 1 / (COUNT - 1), duration: { min: 0.3, max: 0.8 }, ease: 'power2.inOut' },
         onUpdate: () => setActive(Math.round(state.p)),
@@ -263,7 +263,7 @@ export function setupHero({ onReady }) {
       if (frac < 0.003 || frac > 0.997) return;
       const to = l.direction >= 0 ? (frac > 0.03 ? Math.ceil(pos) : Math.floor(pos)) : frac < 0.97 ? Math.floor(pos) : Math.ceil(pos);
       busy = true;
-      l.scrollTo(st.start + (to / (COUNT - 1)) * span, { duration: 2.4, easing: (e) => 1 - (1 - e) ** 2.2, onComplete: () => (busy = false) });
+      l.scrollTo(st.start + (to / (COUNT - 1)) * span, { duration: 3.1, easing: (e) => (e < 0.5 ? 4 * e * e * e : 1 - (-2 * e + 2) ** 3 / 2), onComplete: () => (busy = false) });
     };
     const onWheel = () => {
       busy = false;
