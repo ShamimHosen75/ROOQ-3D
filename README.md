@@ -27,7 +27,11 @@ The hero uses five images in `public/images/`:
 
 The files there now are generated stand-ins (flowing fabric on a blush sky). Replace them with your own model photos, 1920x1080 or larger, landscape, with the subject on the right and space on the left for the text. Keep the same file names and nothing else needs to change. To regenerate the stand-ins: `node tools/render-standins.cjs`.
 
-The "Sarees" product grid uses `public/images/product-1.jpg` to `product-8.jpg` (square-ish portrait crops, about 800x830, on the `#f4e2db` background). Product names, prices, tags and filter categories are in `src/js/products.js`.
+The "Sarees" product grid uses `public/images/sarees/<id>.webp` (transparent cut-outs, 820x897). Product names, prices, tags, filter categories and which photo each card uses are in `src/js/products.js`. `kaveri-b.webp` and `kaveri-c.webp` are extra shots that are not used yet.
+
+The "Place Drape Here" card is `public/images/ui/drop-panel.webp`, and the gold strokes that flick off a drape while you drag it are `public/images/ui/arc-small.png` and `arc-big.png`.
+
+Make sure you have the rights to every photo before you publish the site.
 
 Slide copy lives in `index.html`; drape names, notes and colours in `src/js/drapes.js`. All copy is placeholder.
 

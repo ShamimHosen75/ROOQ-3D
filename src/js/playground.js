@@ -218,6 +218,7 @@ export class Playground {
       if (this.held) {
         const over = this.overDropZone(e.clientX, e.clientY);
         this.dropZone.classList.toggle('is-hot', over);
+        this.swoosh(e.clientX, e.clientY);
         e.preventDefault();
       }
     };
@@ -241,6 +242,51 @@ export class Playground {
       if (!this.held) this.ndc.set(-9, -9);
     });
     window.addEventListener('resize', () => this.resize());
+  }
+
+  /** Gold arc strokes that flick off a drape while it is dragged (public/images/ui/arc-*.png). */
+  swoosh(x, y) {
+    if (this.reduced) return;
+    const last = this.lastSwoosh || { x, y, t: 0 };
+    const dx = x - last.x;
+    const dy = y - last.y;
+    const now = performance.now();
+    if (Math.hypot(dx, dy) < 70 || now - last.t < 140) {
+      if (!this.lastSwoosh) this.lastSwoosh = { x, y, t: now };
+      return;
+    }
+    this.lastSwoosh = { x, y, t: now };
+    if (!this.swooshes) {
+      this.swooshes = Array.from({ length: 6 }, (_, i) => {
+        const img = document.createElement('img');
+        img.src = i % 2 ? '/images/ui/arc-big.png' : '/images/ui/arc-small.png';
+        img.className = 'swoosh';
+        img.alt = '';
+        document.body.appendChild(img);
+        return img;
+      });
+      this.swooshIndex = 0;
+    }
+    // trail behind the motion, on either side of the path
+    const ang = Math.atan2(dy, dx);
+    const side = this.swooshIndex % 2 ? 1 : -1;
+    const back = 46;
+    const off = 34 * side;
+    const px = x - Math.cos(ang) * back - Math.sin(ang) * off;
+    const py = y - Math.sin(ang) * back + Math.cos(ang) * off;
+    const img = this.swooshes[this.swooshIndex++ % this.swooshes.length];
+    const rot = (ang * 180) / Math.PI + (side > 0 ? 200 : 70);
+    gsap.killTweensOf(img);
+    gsap.fromTo(
+      img,
+      { x: px - 23, y: py - 22, rotation: rot, scale: 0.55, opacity: 0 },
+      {
+        keyframes: [
+          { opacity: 0.85, scale: 0.8, duration: 0.18, ease: 'power2.out' },
+          { opacity: 0, scale: 1.05, x: px - 23 - Math.cos(ang) * 22, y: py - 22 - Math.sin(ang) * 22, rotation: rot + 25 * side, duration: 0.55, ease: 'power1.in' },
+        ],
+      },
+    );
   }
 
   overDropZone(x, y) {
@@ -270,8 +316,9 @@ export class Playground {
     body.angularDamping = 0.9;
     body.wakeUp();
     this.held = item;
+    this.lastSwoosh = null;
     this.dropZone.classList.add('is-armed');
-    this.cursor?.setState('hold', 'Drop');
+    this.cursor?.setState('hold');
     document.body.classList.add('is-dragging');
   }
 
@@ -283,7 +330,7 @@ export class Playground {
     this.held = null;
     this.dropZone.classList.remove('is-armed', 'is-hot');
     document.body.classList.remove('is-dragging');
-    this.cursor?.setState(this.hovered ? 'hover' : 'default', this.hovered ? 'Lift' : '');
+    this.cursor?.setState(this.hovered ? 'hover' : 'default');
     if (overZone) {
       this.dropZone.classList.add('is-accepted');
       setTimeout(() => this.dropZone.classList.remove('is-accepted'), 900);
@@ -366,7 +413,7 @@ export class Playground {
         if (this.hovered) gsap.to(this.hovered.mesh.userData.materials[0].emissive, { r: 0, g: 0, b: 0, duration: 0.4 });
         if (item) gsap.to(item.mesh.userData.materials[0].emissive, { r: 0.07, g: 0.05, b: 0.04, duration: 0.4 });
         this.hovered = item;
-        this.cursor?.setState(item ? 'hover' : 'default', item ? 'Lift' : '');
+        this.cursor?.setState(item ? 'hover' : 'default');
         this.renderer.domElement.style.cursor = item ? 'grab' : '';
       }
     }

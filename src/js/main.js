@@ -42,28 +42,35 @@ const scrollTo = (target, opts = {}) => {
 /* ---------------- Cursor ---------------- */
 const cursor = (() => {
   const el = $('.cursor');
-  const ring = $('.cursor__ring');
-  const label = $('.cursor__label');
-  const pos = { x: -100, y: -100 };
-  const cur = { ...pos };
+  const pos = $('.cursor__pos');
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (fine) document.documentElement.classList.add('has-cursor');
+  let x = -100;
+  let y = -100;
   window.addEventListener('pointermove', (e) => {
-    pos.x = e.clientX;
-    pos.y = e.clientY;
+    x = e.clientX;
+    y = e.clientY;
+    el.classList.remove('is-hidden');
   });
+  document.addEventListener('pointerleave', () => el.classList.add('is-hidden'));
   gsap.ticker.add(() => {
-    cur.x += (pos.x - cur.x) * 0.25;
-    cur.y += (pos.y - cur.y) * 0.25;
-    ring.style.transform = `translate(${cur.x}px, ${cur.y}px) translate(-50%, -50%)`;
+    pos.style.transform = `translate(${x}px, ${y}px)`;
   });
   document.addEventListener('pointerover', (e) => {
     if (el.classList.contains('is-hover') || el.classList.contains('is-hold')) return;
     el.classList.toggle('is-link', !!e.target.closest('a, button'));
   });
   return {
-    setState(state, text = '') {
+    get x() {
+      return x;
+    },
+    get y() {
+      return y;
+    },
+    // 'default' (petal), 'hover' (ring), 'hold' (dot)
+    setState(state) {
       el.classList.remove('is-hover', 'is-hold', 'is-link');
       if (state !== 'default') el.classList.add(`is-${state}`);
-      label.textContent = text;
     },
   };
 })();

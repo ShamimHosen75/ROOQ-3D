@@ -17,16 +17,22 @@
   </head>
   <body>
     <svg width="0" height="0" style="position: absolute" aria-hidden="true">
-      <symbol id="rooq-mark" viewBox="0 0 64 40">
-        <path d="M32 6c4 6 4 14 0 21-4-7-4-15 0-21Z" fill="none" stroke="currentColor" stroke-width="1.5" />
-        <path d="M32 27c-5-6-12-9-20-8 3 6 11 9 20 8Z" fill="none" stroke="currentColor" stroke-width="1.5" />
-        <path d="M32 27c5-6 12-9 20-8-3 6-11 9-20 8Z" fill="none" stroke="currentColor" stroke-width="1.5" />
-        <path d="M22 13c2 4 5 7 10 9M42 13c-2 4-5 7-10 9" fill="none" stroke="currentColor" stroke-width="1.2" />
-        <path d="M16 32h32" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      <symbol id="rooq-mark" viewBox="0 0 64 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
+        <path d="M32 3c5.5 6 5.5 18 0 27-5.5-9-5.5-21 0-27z" />
+        <path d="M32 30c-1.5-8-7.5-14.5-16-16 0 9.5 7 16 16 16z" />
+        <path d="M32 30c1.5-8 7.5-14.5 16-16 0 9.5-7 16-16 16z" />
+        <path d="M31 31C25 26 14 24 5 26c5 6 15 8 26 5z" />
+        <path d="M33 31c6-5 17-7 26-5-5 6-15 8-26 5z" />
       </symbol>
     </svg>
 
-    <div class="cursor" aria-hidden="true"><div class="cursor__ring"><span class="cursor__label"></span></div></div>
+    <div class="cursor" aria-hidden="true">
+      <div class="cursor__pos">
+        <svg class="cursor__petal" width="28" height="34" viewBox="0 0 28 34"><defs><linearGradient id="pc-g" x1="2" y1="2" x2="22" y2="32" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffd4de" /><stop offset="0.55" stop-color="#f48aa6" /><stop offset="1" stop-color="#d4476f" /></linearGradient></defs><path d="M2 2 C8 4 20 8 25 17 C28.5 24 22 32.5 14 32 C6 31.4 1.5 21 1.8 12 C1.9 8 2 5 2 2Z" fill="url(#pc-g)" /><path d="M2.6 3.4 C6 12 10 22 14 30" fill="none" stroke="#fff2f5" stroke-opacity=".5" stroke-width=".8" stroke-linecap="round" /><path d="M2.6 3.4 C11 7 19 12 22 20" fill="none" stroke="#c63a62" stroke-opacity=".28" stroke-width=".7" stroke-linecap="round" /></svg>
+        <svg class="cursor__ring" width="34" height="34" viewBox="0 0 34 34"><circle cx="17" cy="17" r="8.5" fill="none" stroke="#fbefe6" stroke-width="3" stroke-opacity=".9" /><circle cx="17" cy="17" r="8.5" fill="none" stroke="#3a2418" stroke-width="1.1" /></svg>
+        <svg class="cursor__dot" width="34" height="34" viewBox="0 0 34 34"><circle cx="17" cy="17" r="7.5" fill="#3a2418" stroke="#fbefe6" stroke-width="2.2" /><circle cx="17" cy="17" r="2" fill="#c9a463" /></svg>
+      </div>
+    </div>
 
     <!-- Site header: appears once you are past the hero, when scrolling up -->
     <header class="site-header">
@@ -60,35 +66,35 @@
               <h1 class="slide__title">Rooq</h1>
               <span class="slide__rule"></span>
               <p class="slide__text">A curated house of drapes,<br />weaves and quiet elegance.</p>
-              <a class="btn" href="#drape" data-scroll-to="#drape">Explore the Collection <svg viewBox="0 0 24 10"><path d="M0 5h22M18 1l4 4-4 4" /></svg></a>
+              <a class="btn" href="#drape" data-scroll-to="#drape">Explore the Collection <svg viewBox="0 0 24 12"><path d="M0 6h22M17 1l5 5-5 5" /></svg></a>
             </article>
             <article class="slide" data-slide="1">
               <p class="slide__eyebrow">The saree gallery</p>
               <h2 class="slide__title">Sarees</h2>
               <span class="slide__rule"></span>
               <p class="slide__text">Drapes woven with<br />tradition and grace.</p>
-              <a class="btn btn--icon" href="#drape" data-filter-link="silk" aria-label="Explore sarees"><svg viewBox="0 0 24 10"><path d="M0 5h22M18 1l4 4-4 4" /></svg></a>
+              <a class="btn btn--icon" href="#drape" data-filter-link="silk" aria-label="Explore sarees"><svg viewBox="0 0 24 12"><path d="M0 6h22M17 1l5 5-5 5" /></svg></a>
             </article>
             <article class="slide" data-slide="2">
               <p class="slide__eyebrow">The lehenga room</p>
               <h2 class="slide__title">Lehengas</h2>
               <span class="slide__rule"></span>
               <p class="slide__text">For celebrations<br />worth remembering.</p>
-              <a class="btn btn--icon" href="#drape" data-filter-link="bridal" aria-label="Explore lehengas"><svg viewBox="0 0 24 10"><path d="M0 5h22M18 1l4 4-4 4" /></svg></a>
+              <a class="btn btn--icon" href="#drape" data-filter-link="bridal" aria-label="Explore lehengas"><svg viewBox="0 0 24 12"><path d="M0 6h22M17 1l5 5-5 5" /></svg></a>
             </article>
             <article class="slide" data-slide="3">
               <p class="slide__eyebrow">New silhouettes</p>
               <h2 class="slide__title">Fusion Wear</h2>
               <span class="slide__rule"></span>
               <p class="slide__text">Modern silhouettes,<br />rooted in craft.</p>
-              <a class="btn btn--icon" href="#drape" data-filter-link="festive" aria-label="Explore fusion wear"><svg viewBox="0 0 24 10"><path d="M0 5h22M18 1l4 4-4 4" /></svg></a>
+              <a class="btn btn--icon" href="#drape" data-filter-link="festive" aria-label="Explore fusion wear"><svg viewBox="0 0 24 12"><path d="M0 6h22M17 1l5 5-5 5" /></svg></a>
             </article>
             <article class="slide" data-slide="4">
               <p class="slide__eyebrow">Every occasion</p>
               <h2 class="slide__title">Our Collections</h2>
               <span class="slide__rule"></span>
               <p class="slide__text">From quiet everyday wear<br />to grand occasions.</p>
-              <a class="btn" href="#drape" data-scroll-to="#drape">Browse All Collection <svg viewBox="0 0 24 10"><path d="M0 5h22M18 1l4 4-4 4" /></svg></a>
+              <a class="btn" href="#drape" data-scroll-to="#drape">Browse All Collection <svg viewBox="0 0 24 12"><path d="M0 6h22M17 1l5 5-5 5" /></svg></a>
             </article>
           </div>
 
@@ -125,19 +131,10 @@
         </div>
         <div class="drape__foot">
           <p>A soft study of silk,<br />weight and light.</p>
-          <a href="#collections" class="link" data-scroll-to="#collections">View Collection <svg viewBox="0 0 24 10"><path d="M0 5h22M18 1l4 4-4 4" /></svg></a>
+          <a href="#collections" class="link" data-scroll-to="#collections">View Collection <svg viewBox="0 0 24 12"><path d="M0 6h22M17 1l5 5-5 5" /></svg></a>
         </div>
         <div class="dropzone" aria-hidden="true">
-          <svg class="dropzone__frame" viewBox="0 0 230 150" preserveAspectRatio="none">
-            <rect x="1" y="1" width="228" height="148" rx="12" />
-            <path class="corner" d="M14 30V18a4 4 0 0 1 4-4h12M200 14h12a4 4 0 0 1 4 4v12M216 120v12a4 4 0 0 1-4 4h-12M30 136H18a4 4 0 0 1-4-4v-12" />
-          </svg>
-          <div class="dropzone__icon">
-            <svg viewBox="0 0 48 40"><path d="M10 31 15 11h18l5 20Z" /><path d="M15 11c3 5 6 8 9 8s6-3 9-8" /><path d="M8 31h32v3H8z" /><path d="M14 12v-4h20v4" /></svg>
-          </div>
-          <p>Place Drape Here</p>
-          <div class="dropzone__orn"><i></i><svg viewBox="0 0 64 40" class="mark"><use href="#rooq-mark" /></svg><i></i></div>
-          <span class="dropzone__pulse"></span>
+          <img class="dropzone__img" src="/images/ui/drop-panel.webp" alt="" width="800" height="491" draggable="false" />
         </div>
       </section>
 

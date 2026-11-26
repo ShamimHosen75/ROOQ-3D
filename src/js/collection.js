@@ -4,7 +4,7 @@ import { PRODUCTS } from './products.js';
 
 const rupees = (n) => '₹' + n.toLocaleString('en-IN');
 const HEART =
-  '<svg viewBox="0 0 24 24"><path d="M12 19s-7-4.4-9.2-8.6C1.3 7.4 3 4 6.4 4c2 0 3.3 1.1 4 2.3h3.2C14.3 5.1 15.6 4 17.6 4 21 4 22.7 7.4 21.2 10.4 19 14.6 12 19 12 19Z"/></svg>';
+  '<svg viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.7c0 5.6-7.5 10.2-7.5 10.2Z"/></svg>';
 
 const el = (tag, cls, text) => {
   const n = document.createElement(tag);
