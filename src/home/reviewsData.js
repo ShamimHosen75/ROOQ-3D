@@ -1,5 +1,4 @@
-// SAMPLE reviews: placeholders written for the template. Replace them with real
-// customer reviews (with permission) before the site goes live.
+// SAMPLE reviews: placeholders. Replace them with real customer reviews (with permission) before going live.
 export const REVIEWS = [
   {
     product: 'gulmohar',
@@ -66,6 +65,4 @@ export const REVIEWS = [
     text: 'That purple is unreal in daylight. Pleats fall beautifully and the silk did not crush at all after a long evening.',
   },
 ];
-
 export const reviewsFor = (id) => REVIEWS.filter((r) => r.product === id);
-export const stars = (n) => '★★★★★'.slice(0, n) + '☆☆☆☆☆'.slice(0, 5 - n);

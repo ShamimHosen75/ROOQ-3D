@@ -2,28 +2,89 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Saree · ROOQ Clothing Atelier</title>
-    <meta name="description" content="A handcrafted saree from ROOQ Clothing Atelier." />
-    <meta name="theme-color" content="#f3e4df" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Rooq Clothing Atelier</title>
+    <meta name="description" content="A handloom saree from Rooq Clothing Atelier." />
+    <meta name="theme-color" content="#f3e4dc" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=DM+Sans:opsz,wght@9..40,300..700&display=swap"
       rel="stylesheet"
     />
   </head>
   <body class="page page--product">
-    <main>
-      <section class="pdp" aria-live="polite"></section>
-      <section class="pdp-story"></section>
-      <section class="reviews reviews--pdp" id="reviews" aria-label="Customer reviews"></section>
-      <section class="related">
-        <div class="related__head"><p class="eyebrow">You may also like</p><h2 class="related__title" data-split>More from the atelier</h2></div>
-        <div class="grid related__grid"></div>
+    <main class="pd">
+      <section class="pd__hero">
+        <div class="pd__gallery">
+          <div class="pd__stage">
+            <span class="pd__disc" aria-hidden="true"></span>
+            <img class="pd__arc pd__arc--a" src="/drape/arc-big.png" alt="" aria-hidden="true" />
+            <img class="pd__arc pd__arc--b" src="/drape/arc-small.png" alt="" aria-hidden="true" />
+            <div class="pd__zoom"><img class="pd__img" alt="" width="820" height="897" draggable="false" /></div>
+            <span class="pd__hint" aria-hidden="true">Hover to look closer</span>
+          </div>
+          <div class="pd__thumbs" role="tablist" aria-label="Photos"></div>
+        </div>
+        <div class="pd__info">
+          <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/collections.html">Collections</a><span>/</span><span aria-current="page" class="js-crumb"></span></nav>
+          <p class="kicker pd__tags"></p>
+          <div class="pd__title"><h1 class="pd__name"></h1><span class="js-save"></span></div>
+          <div class="pd__meta">
+            <p class="pd__price"></p>
+            <a class="pd__rating" href="#reviews"></a>
+          </div>
+          <p class="pd__desc"></p>
+          <div class="pd__notes"></div>
+          <div class="pd__opt">
+            <p class="pd__label">Blouse</p>
+            <div class="seg" role="radiogroup" aria-label="Blouse">
+              <button type="button" role="radio" aria-checked="true">Unstitched piece</button>
+              <button type="button" role="radio" aria-checked="false">Stitched to size</button>
+            </div>
+            <p class="pd__optnote">We take your measurements after you order, in the atelier or on a video call.</p>
+          </div>
+          <div class="qv__qty pd__qty">
+            <span>Quantity</span>
+            <div class="qv__stepper"><button type="button" aria-label="Fewer">−</button><output aria-live="polite">1</output><button type="button" aria-label="More">+</button></div>
+          </div>
+          <div class="pd__buy">
+            <button type="button" class="qv__buy js-buy">Buy Now</button>
+            <button type="button" class="qv__cart js-cart">Add to Cart</button>
+          </div>
+          <div class="qv__trust"><span>Secure Payment</span><span><i></i>Easy Returns</span><span><i></i>Authentic Silk</span></div>
+          <ul class="pd__perks">
+            <li><b>Ships in 2 to 4 days</b> across India, wrapped in muslin.</li>
+            <li><b>Exchange within 7 days</b> on unworn drapes with tags.</li>
+            <li><b>Video fitting</b> with the atelier, free with every order.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="pd__story">
+        <div class="pd__storycopy">
+          <p class="kicker" data-reveal>The story</p>
+          <p class="pd__storytext" data-split></p>
+        </div>
+        <div class="pd__details" data-reveal>
+          <p class="kicker">The details</p>
+          <div class="pd__acc"></div>
+        </div>
+      </section>
+
+      <section class="rv" id="reviews" aria-label="Customer reviews"></section>
+
+      <section class="pd__more coll">
+        <div class="pd__morehead">
+          <p class="kicker" data-reveal>You may also like</p>
+          <h2 data-split>More from the atelier</h2>
+          <a class="link" href="/collections.html" data-reveal>See all sarees <svg aria-hidden="true"><use href="#arrow" /></svg></a>
+        </div>
+        <div class="coll__grid"></div>
       </section>
     </main>
-    <script type="module" src="/src/js/pages/product.js"></script>
+    <div data-footer></div>
+    <script type="module" src="/src/home/pages/product.js"></script>
   </body>
 </html>

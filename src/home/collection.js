@@ -1,17 +1,8 @@
 import { gsap, ScrollTrigger, $, $$, lenisNow } from './core.js';
 
-const FILTERS = ['All', 'Silk', 'Organza', 'Banarasi', 'Velvet', 'Festive'];
-export const PIECES = [
-  { id: 'gulmohar', name: 'Gulmohar Banarasi', price: '₹18,500', desc: 'A Banarasi in deep maroon with a rich zari border and woven gold motifs.', notes: ['Pure Silk', 'Zari Weave', 'Handcrafted'], tags: ['Silk', 'Banarasi'] },
-  { id: 'noor', name: 'Noor Organza', price: '₹12,800', desc: 'Featherlight organza with hand-stitched pink floral thread work.', notes: ['Organza', 'Thread Work', 'Floral Motif'], tags: ['Organza'] },
-  { id: 'rajshree', name: 'Rajshree Velvet', price: '₹24,900', desc: 'Midnight velvet with raised zardozi vines, made for long evenings.', notes: ['Velvet', 'Zardozi', 'Hand Embroidery'], tags: ['Velvet', 'Festive'] },
-  { id: 'swarna', name: 'Swarna Organza', price: '₹13,500', desc: 'Sunlit mustard organza finished with fine white thread work.', notes: ['Organza', 'White Thread Work', 'Lightweight'], tags: ['Organza', 'Festive'] },
-  { id: 'kaveri', name: 'Kaveri Kanchipuram', price: '₹21,900', desc: 'A classic Kanchipuram in rich green with authentic temple border and gold motifs.', notes: ['Pure Silk', 'Temple Border', 'Traditional'], tags: ['Silk', 'Festive'], poses: ['kaveri-b', 'kaveri-c'] },
-  { id: 'madhavi', name: 'Madhavi Organza', price: '₹15,200', desc: 'Soft lilac organza with delicate sequin work, a pastel favourite.', notes: ['Organza', 'Sequins Work', 'Pastel Edit'], tags: ['Organza'] },
-  { id: 'veena', name: 'Veena Chikankari', price: '₹16,800', desc: 'Cream georgette with intricate Chikankari embroidery, finished by hand.', notes: ['Georgette', 'Chikankari', 'Handcrafted'], tags: ['Festive'] },
-  { id: 'nilambari', name: 'Nilambari Silk', price: '₹20,500', desc: 'Pure silk in deep purple with gold butta work for festive days.', notes: ['Pure Silk', 'Butta Work', 'Festive Wear'], tags: ['Silk', 'Festive'] },
-];
-const photos = (p) => [p.id, ...(p.poses ?? [])].map((id) => `/collection/${id}.webp`);
+import { PIECES, FILTERS, photos, inr } from './products.js';
+
+export { PIECES };
 const heart = '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#heart" /></svg>';
 const el = (tag, cls, html) => {
   const e = document.createElement(tag);
@@ -30,7 +21,7 @@ function syncSave(b, id) {
   b.setAttribute('aria-pressed', String(!!saved[id]));
   b.setAttribute('aria-label', saved[id] ? 'Remove from saved' : 'Save');
 }
-function saveButton(id) {
+export function saveButton(id) {
   const b = el('button', 'save', heart);
   b.type = 'button';
   syncSave(b, id);
@@ -68,7 +59,7 @@ function poseWipe(media, p) {
   card.addEventListener('blur', () => tl.timeScale(1.7).reverse());
 }
 
-function card(p, open) {
+export function card(p, open) {
   const a = el('article', 'piece js-reveal js-piece' + (p.poses ? ' has-poses' : ''));
   a.tabIndex = 0;
   a.setAttribute('role', 'button');
@@ -84,7 +75,7 @@ function card(p, open) {
   a.appendChild(media);
   const row = el('div', 'piece__row');
   row.append(el('h3', '', p.name), saveButton(p.id));
-  a.append(row, el('p', 'piece__price', p.price), el('p', 'piece__notes', p.notes.join('  |  ')));
+  a.append(row, el('p', 'piece__price', inr(p.price)), el('p', 'piece__notes', p.notes.join('  |  ')));
   a.addEventListener('click', () => open(p));
   a.addEventListener('keydown', (e) => (e.key === 'Enter' || e.key === ' ') && e.target === a && (e.preventDefault(), open(p)));
   if (p.poses) poseWipe(media, p);
@@ -92,7 +83,7 @@ function card(p, open) {
 }
 
 /* ---------- quick view ---------- */
-function quickView() {
+export function quickView() {
   const root = $('.qv');
   let piece = null;
   let qty = 1;
@@ -168,7 +159,9 @@ function quickView() {
     buy.addEventListener('click', () => flash('buy'));
     cart.addEventListener('click', () => flash('cart'));
     const trust = el('div', 'qv__trust', ['Secure Payment', 'Easy Returns', 'Authentic Silk'].map((t, i) => `<span>${i ? '<i></i>' : ''}${t}</span>`).join(''));
-    right.append(top, el('p', 'qv__price', piece.price), notes, el('p', 'qv__desc', piece.desc), el('div', 'qv__hr'), qtyRow, buy, cart, trust);
+    const more = el('a', 'qv__more', 'View full details <svg aria-hidden="true"><use href="#arrow" /></svg>');
+    more.href = `/product.html?id=${piece.id}`;
+    right.append(top, el('p', 'qv__price', inr(piece.price)), notes, el('p', 'qv__desc', piece.desc), el('div', 'qv__hr'), qtyRow, buy, cart, trust, more);
     grid.append(left, right);
     const orn = el('div', 'qv__orn', '<i></i><svg aria-hidden="true"><use href="#lotus" /></svg><i></i>');
     cardEl.append(x, grid, orn);

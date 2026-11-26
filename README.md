@@ -33,8 +33,21 @@ Deploys as a static site (Vercel, Netlify, GitHub Pages). On Vercel, import the 
 | `public/drape/` | Folded-saree textures (`top-<id>-col/-rm/-h`, `edge-<id>-col/-rm`), cut-outs for the selection view (`cut-<id>`), drop panel, gold arcs |
 | `public/collection/` | Product cut-outs (820×897) |
 
-Slide copy and the fabric/silhouette regions are in `src/home/heroData.js`; product names and prices in `src/home/collection.js`; drape names and notes in `src/home/drapeData.js`. Store address and phone in the footer are placeholders.
+Slide copy and the fabric/silhouette regions are in `src/home/heroData.js`; drape names and notes in `src/home/drapeData.js`.
 
-## Other pages
+## Content you will want to replace
 
-`collections.html`, `product.html`, `about.html` and `contact.html` are still in the build (code in `src/js/`), but the home page doesn't link to them, to match the reference.
+- `src/home/products.js`: the catalogue (names, prices, tags, story, details). Images are `public/collection/<id>.webp`.
+- `src/home/reviewsData.js`: sample reviews. Replace with real ones (with permission) before going live.
+- `src/home/store.js`: address, hours, phone, email and social links used in the footer and on Contact.
+
+## Pages
+
+Every page calls `renderLayout()` (`src/home/layout.js`) first, which adds the header, mobile menu, petal cursor, scrollbar and footer, so they stay identical. Links to other pages leave through a short curtain.
+
+- `index.html` (`src/home/main.js`): hero, Pick a Drape, collection grid with quick view, customer reviews.
+- `collections.html`: every saree, filter pills (`?c=Silk` etc.) and sorting. Cards open the product page.
+- `product.html?id=<id>`: gallery with hover zoom, blouse option, quantity, story, details, reviews and related pieces.
+- `about.html`, `contact.html`: story, values, process; contact cards, a form that opens the visitor's email app, FAQ.
+
+Inner pages share `src/home/page.js` (boot and scroll reveals) and `src/home/pages.css`. The footer (`src/home/footer.js`) has the newsletter form and the large ROOQ wordmark with its rise-in and pointer light. Buy Now, Add to Cart and the newsletter are front-end only for now.

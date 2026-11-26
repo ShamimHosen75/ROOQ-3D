@@ -2,36 +2,38 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contact · ROOQ Clothing Atelier</title>
-    <meta name="description" content="Visit ROOQ Clothing Atelier, book a fitting or ask about a saree." />
-    <meta name="theme-color" content="#f3e4df" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Contact — Rooq Clothing Atelier</title>
+    <meta name="description" content="Visit the Rooq atelier, book a fitting or ask about a drape." />
+    <meta name="theme-color" content="#f3e4dc" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=DM+Sans:opsz,wght@9..40,300..700&display=swap"
       rel="stylesheet"
     />
   </head>
   <body class="page page--contact">
     <main>
-      <section class="phero phero--contact">
-        <img class="phero__arc phero__arc--a" src="/images/ui/arc-big.png" alt="" aria-hidden="true" />
-        <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span aria-current="page">Contact</span></nav>
-        <p class="eyebrow" data-reveal>Visit &amp; contact</p>
-        <h1 class="phero__title" data-split>Come by the atelier</h1>
-        <p class="phero__lead" data-reveal>Book a fitting, ask about a drape, or plan a bridal visit. We usually reply within a day.</p>
-      </section>
-      <section class="contact">
-        <div class="contact__info">
-          <article class="info-card" data-reveal><p class="eyebrow">Atelier</p><p class="info-card__big" data-store="address"></p><p data-store="city"></p><a class="link" data-store="map" target="_blank" rel="noopener">Get directions <svg viewBox="0 0 24 12"><path d="M0 6h22M17 1l5 5-5 5" /></svg></a></article>
-          <article class="info-card" data-reveal><p class="eyebrow">Hours</p><p class="info-card__big" data-store="hours"></p><p>Bridal appointments on request.</p></article>
-          <article class="info-card" data-reveal><p class="eyebrow">Talk to us</p><a class="info-card__big" data-store="phone"></a><a data-store="email"></a><a class="link" data-store="whatsapp" target="_blank" rel="noopener">WhatsApp us <svg viewBox="0 0 24 12"><path d="M0 6h22M17 1l5 5-5 5" /></svg></a></article>
+      <section class="ph ph--contact">
+        <div class="ph__copy">
+          <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span aria-current="page">Contact</span></nav>
+          <p class="kicker" data-reveal>Visit &amp; contact</p>
+          <h1 class="ph__title" data-split>Come by<br /><em>the atelier.</em></h1>
+          <p class="ph__lead" data-reveal>Book a fitting, ask about a drape, or plan a bridal visit. We usually reply within a day.</p>
         </div>
-        <form class="contact__form" novalidate data-reveal>
-          <p class="eyebrow">Write to us</p>
-          <h2 class="contact__title">Tell us what you are looking for</h2>
+      </section>
+
+      <section class="ct">
+        <div class="ct__info">
+          <article class="card" data-reveal><p class="kicker">Atelier</p><p class="card__big" data-store="address"></p><p data-store="city"></p><a class="link" data-store="map" target="_blank" rel="noopener">Get directions <svg aria-hidden="true"><use href="#arrow" /></svg></a></article>
+          <article class="card" data-reveal><p class="kicker">Hours</p><p class="card__big" data-store="hours"></p><p>Bridal appointments on request.</p></article>
+          <article class="card" data-reveal><p class="kicker">Talk to us</p><a class="card__big" data-store="phone"></a><a data-store="email"></a><a class="link" data-store="whatsapp" target="_blank" rel="noopener">WhatsApp us <svg aria-hidden="true"><use href="#arrow" /></svg></a></article>
+        </div>
+        <form class="ct__form" novalidate data-reveal>
+          <p class="kicker">Write to us</p>
+          <h2 class="h2">Tell us what you are looking for</h2>
           <div class="field"><input id="c-name" name="name" required autocomplete="name" placeholder=" " /><label for="c-name">Your name</label></div>
           <div class="field-row">
             <div class="field"><input id="c-email" name="email" type="email" required autocomplete="email" placeholder=" " /><label for="c-email">Email</label></div>
@@ -45,12 +47,13 @@
             <option>Something else</option>
           </select><label for="c-topic">I would like to</label></div>
           <div class="field"><textarea id="c-msg" name="message" rows="5" required placeholder=" "></textarea><label for="c-msg">Message</label></div>
-          <button class="btn btn--solid" type="submit">Send message <svg viewBox="0 0 24 12"><path d="M0 6h22M17 1l5 5-5 5" /></svg></button>
-          <p class="contact__note">This opens your email app with the message ready to send.</p>
+          <button class="btn" type="submit">Send message <svg aria-hidden="true"><use href="#arrow" /></svg></button>
+          <p class="ct__note" aria-live="polite">This opens your email app with the message ready to send.</p>
         </form>
       </section>
+
       <section class="faq">
-        <div class="faq__head"><p class="eyebrow" data-reveal>Good to know</p><h2 class="faq__title" data-split>Questions we hear often</h2></div>
+        <div class="faq__head"><p class="kicker" data-reveal>Good to know</p><h2 class="h2" data-split>Questions we hear often</h2></div>
         <div class="faq__list">
           <details class="acc" data-reveal><summary>Do you stitch blouses?<i></i></summary><div class="acc__body"><p>Yes. Choose "stitched to size" on any saree and we will take your measurements after you order, in the atelier or over a video call.</p></div></details>
           <details class="acc" data-reveal><summary>Can I see a saree before buying?<i></i></summary><div class="acc__body"><p>Of course. Visit the atelier, or book a video call and we will unfold it for you, border and pallu included.</p></div></details>
@@ -59,6 +62,7 @@
         </div>
       </section>
     </main>
-    <script type="module" src="/src/js/pages/contact.js"></script>
+    <div data-footer></div>
+    <script type="module" src="/src/home/pages/contact.js"></script>
   </body>
 </html>

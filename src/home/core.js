@@ -53,7 +53,9 @@ export function sectionSnap() {
     const max = document.documentElement.scrollHeight - vh;
     const end = Math.min(v ?? max, max);
     const pts = [d - hero.offsetHeight, d, c];
-    if (end > c + EDGE) pts.push(end);
+    const r = top('reviews');
+    if (r != null && r > c + EDGE && r < end - EDGE) pts.push(r);
+    if (end > pts[pts.length - 1] + EDGE) pts.push(end);
     return { pts, vh };
   };
   const settle = () => {

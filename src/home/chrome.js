@@ -1,7 +1,7 @@
 import { gsap, $, $$, reduced, lenisNow, scrollTo } from './core.js';
 
 /* ---------- header + mobile menu ---------- */
-export function setupNav() {
+export function setupNav({ home = false } = {}) {
   const nav = $('.nav');
   const links = $('.nav__links');
   const menu = $('.menu');
@@ -11,6 +11,7 @@ export function setupNav() {
 
   const setMode = (mode, leaving) => {
     nav.classList.toggle('is-hero', mode === 'hero');
+    nav.classList.toggle('is-top', mode === 'top');
     nav.classList.toggle('is-solid', mode === 'solid');
     nav.classList.toggle('is-hidden', mode === 'hidden');
     nav.classList.toggle('is-leaving', leaving);
@@ -20,11 +21,12 @@ export function setupNav() {
   };
   let last = window.scrollY;
   const onScroll = () => {
-    const pinH = document.getElementById('top')?.parentElement?.offsetHeight ?? window.innerHeight;
-    const edge = pinH - window.innerHeight * 0.5;
     const y = window.scrollY;
-    const leaving = y > edge - window.innerHeight * 0.5 + 30;
-    setMode(y < edge ? 'hero' : y > last ? 'hidden' : 'solid', leaving);
+    if (home) {
+      const pinH = document.getElementById('top')?.parentElement?.offsetHeight ?? window.innerHeight;
+      const edge = pinH - window.innerHeight * 0.5;
+      setMode(y < edge ? 'hero' : y > last ? 'hidden' : 'solid', y > edge - window.innerHeight * 0.5 + 30);
+    } else setMode(y < 60 ? 'top' : y > last ? 'hidden' : 'solid', false);
     last = y;
   };
   window.addEventListener('scroll', onScroll, { passive: true });
@@ -53,15 +55,48 @@ export function setupNav() {
   window.addEventListener('keydown', (e) => e.key === 'Escape' && open && setOpen(false));
   window.matchMedia('(min-width: 768px)').addEventListener('change', (e) => e.matches && open && setOpen(false));
 
-  $$('[data-go]').forEach((a) =>
-    a.addEventListener('click', (e) => {
+  // same-page anchors scroll smoothly; links to other pages leave through the curtain
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href]');
+    if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || a.target === '_blank') return;
+    if (a.hasAttribute('data-top')) {
+      e.preventDefault();
+      scrollTo(0, { duration: 2 });
+      return;
+    }
+    const url = new URL(a.href, location.href);
+    if (url.origin !== location.origin || url.protocol.startsWith('mailto') || url.protocol.startsWith('tel')) return;
+    const path = (p) => p.replace(/index\.html$/, '');
+    const samePage = path(url.pathname) === path(location.pathname) && url.search === location.search;
+    if (samePage) {
       e.preventDefault();
       if (open) setOpen(false);
       document.documentElement.style.overflow = '';
       lenisNow()?.start();
-      scrollTo(a.dataset.go);
-    }),
-  );
+      if (url.hash && document.querySelector(url.hash)) scrollTo(url.hash);
+      else if (!url.hash) scrollTo(0);
+      return;
+    }
+    e.preventDefault();
+    leaveTo(url.href);
+  });
+  window.addEventListener('pageshow', (e) => e.persisted && $('.curtain')?.classList.remove('is-on'));
+}
+
+export function leaveTo(href) {
+  let c = $('.curtain');
+  if (!c) {
+    c = document.createElement('div');
+    c.className = 'curtain';
+    c.innerHTML = '<svg><use href="#lotus" /></svg>';
+    document.body.appendChild(c);
+  }
+  if (reduced()) {
+    window.location.assign(href);
+    return;
+  }
+  requestAnimationFrame(() => c.classList.add('is-on'));
+  setTimeout(() => window.location.assign(href), 560);
 }
 
 /* ---------- loader ---------- */
