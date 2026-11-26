@@ -222,7 +222,10 @@ export function setupCursor() {
     hover += (hoverT - hover) * (1 - Math.exp(-dt * 16));
     const bc = document.body.style.cursor;
     const g = bc === 'grabbing' ? 2 : bc === 'grab' ? 1 : 0;
-    petal.style.visibility = g ? 'hidden' : 'visible';
+    // a section with its own cursor (the runway ring) sets data-cursor-off on body
+    const off = document.body.hasAttribute('data-cursor-off');
+    petal.style.visibility = g || off ? 'hidden' : 'visible';
+    dot.style.visibility = off ? 'hidden' : 'visible';
     petal.style.opacity = target.seen ? String(Math.max(0, 1 - hover * 1.25)) : '0';
     dot.style.opacity = target.seen && !g ? String(Math.min(0.82, hover * 1.25)) : '0';
     dot.style.transform = `translate3d(${pos.x - 8}px, ${pos.y - 8}px, 0) scale(${(0.35 + 0.65 * hover) * (1 - 0.18 * pressed)})`;

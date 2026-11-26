@@ -7,6 +7,8 @@ import { setupHero } from './hero.js';
 import { setupDrapes, revealDrapes } from './drapes.js';
 import { setupCollection } from './collection.js';
 import { setupReviews } from './reviews.js';
+import { setupRunway } from './runway.js';
+import { setupLoom } from './loom.js';
 
 renderLayout('home');
 const hash = location.hash;
@@ -31,7 +33,9 @@ const startHero = setupHero({
       startHero();
       revealDrapes();
       setupCollection();
+      setupRunway(document.getElementById('runway'));
       setupReviews(document.getElementById('reviews'));
+      setupLoom(document.getElementById('loom'));
       setupFooter();
       sectionSnap();
       requestAnimationFrame(() => {

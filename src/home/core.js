@@ -42,7 +42,8 @@ export function sectionSnap() {
   const points = () => {
     const vh = window.innerHeight;
     const top = (id) => {
-      const el = document.getElementById(id);
+      let el = document.getElementById(id);
+      if (el?.parentElement?.classList.contains('pin-spacer')) el = el.parentElement; // pinned: measure the spacer
       return el ? el.getBoundingClientRect().top + window.scrollY : null;
     };
     const d = top('drapes');
@@ -53,8 +54,10 @@ export function sectionSnap() {
     const max = document.documentElement.scrollHeight - vh;
     const end = Math.min(v ?? max, max);
     const pts = [d - hero.offsetHeight, d, c];
+    const rw = top('runway');
+    if (rw != null && rw > c + EDGE) pts.push(rw);
     const r = top('reviews');
-    if (r != null && r > c + EDGE && r < end - EDGE) pts.push(r);
+    if (r != null && r > pts[pts.length - 1] + EDGE && r < end - EDGE) pts.push(r);
     if (end > pts[pts.length - 1] + EDGE) pts.push(end);
     return { pts, vh };
   };
@@ -64,6 +67,12 @@ export function sectionSnap() {
     if (!r) return;
     const { pts, vh } = r;
     const y = l.targetScroll;
+    // the runway pin has its own look-by-look snapping
+    const sp = document.getElementById('runway')?.parentElement;
+    if (sp?.classList.contains('pin-spacer')) {
+      const t = sp.getBoundingClientRect().top + window.scrollY;
+      if (y > t + 2 && y < t + sp.offsetHeight - vh - 2) return;
+    }
     if (y <= pts[0] + 2 || y >= pts[pts.length - 1] - 2) return;
     let i = 0;
     while (i < pts.length - 2 && y > pts[i + 1]) i++;
