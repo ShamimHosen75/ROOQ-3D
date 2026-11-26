@@ -26,7 +26,7 @@ export function reveals(scope = document) {
   $$('[data-reveal]', scope).forEach((el) => gsap.set(el, { autoAlpha: 0 }));
   $$('[data-parallax]', scope).forEach((el) => {
     const amt = Number(el.dataset.parallax) || 8;
-    gsap.fromTo(el, { yPercent: -amt }, { yPercent: amt, ease: 'none', scrollTrigger: { trigger: el.parentElement, start: 'top bottom', end: 'bottom top', scrub: true } });
+    gsap.fromTo(el, { yPercent: -amt }, { yPercent: amt, ease: 'none', scrollTrigger: { trigger: el.parentElement, start: 'top bottom', end: 'bottom top', scrub: 0.8 } });
   });
 }
 

@@ -197,8 +197,8 @@ export function setupCursor() {
     const t = performance.now() / 1000;
     const px = pos.x;
     const py = pos.y;
-    pos.vx += ((target.x - pos.x) * 260 - pos.vx * 15) * dt;
-    pos.vy += ((target.y - pos.y) * 260 - pos.vy * 15) * dt;
+    pos.vx += ((target.x - pos.x) * 210 - pos.vx * 22) * dt; // softer spring, a touch more damping
+    pos.vy += ((target.y - pos.y) * 210 - pos.vy * 22) * dt;
     pos.x += pos.vx * dt;
     pos.y += pos.vy * dt;
     const vx = (pos.x - px) / Math.max(dt, 0.001);
@@ -211,9 +211,9 @@ export function setupCursor() {
     const lean = Math.max(-40, Math.min(40, vx * 0.03));
     const flutter = Math.sin(t * 9) * 9 * speedMix;
     const goal = -18 + lean + Math.max(-22, Math.min(22, vy * 0.012)) + Math.sin(t * 4.2 + 0.6) * 28 * scrollMix + flutter;
-    rot += (goal - rot) * 0.22;
-    tiltY += (Math.max(-60, Math.min(60, vx * 0.045)) - tiltY) * 0.18;
-    tiltX += (Math.max(-60, Math.min(60, -vy * 0.045)) - tiltX) * 0.18;
+    rot += (goal - rot) * (1 - Math.exp(-dt * 9));
+    tiltY += (Math.max(-60, Math.min(60, vx * 0.045)) - tiltY) * (1 - Math.exp(-dt * 7));
+    tiltX += (Math.max(-60, Math.min(60, -vy * 0.045)) - tiltX) * (1 - Math.exp(-dt * 7));
     const sc = (1 - 0.16 * pressed) * (1 - 0.45 * hover);
     if (!(frame++ & 3) && target.seen) {
       const el = document.elementFromPoint(target.x, target.y);

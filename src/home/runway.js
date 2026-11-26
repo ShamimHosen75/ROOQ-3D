@@ -2,41 +2,33 @@ import { ScrollTrigger, gsap, reduced, lenisNow } from './core.js';
 import { byId, inr } from './products.js';
 
 /*
- * Virtual fitting runway. Six looks stand in a line that recedes into a haze;
- * one float `p` drives every model, the product rail and the rolling look number.
- * Depth is read from a seven-stop table (d = -1 … 5), not a formula.
- * Page scroll walks the line while the section is pinned; drag and arrow keys walk it too.
+ * Virtual fitting. One model stands in the middle; as the section is scrolled (or dragged,
+ * or stepped with the arrow keys) the saree on her changes colour with a sweep that runs
+ * down the drape, a line of zari light riding the edge, and a small sway of the body.
+ * One float `p` drives the model, the product rail and the rolling look number.
  *
- * Images: each look is cropped out of a transparent cut-out with an <svg viewBox>.
- * To use full-length model cut-outs later, change LOOKS (src + box) and nothing else.
+ * The six looks are the same drape recoloured (public/fitting/<id>.webp, all 610 x 897,
+ * pixel-aligned) so only the saree changes. saree-mask.webp is the drape's silhouette,
+ * used to keep the light on the fabric.
  */
-const SHEET = { w: 820, h: 897 };
 const LOOKS = [
-  { id: 'gulmohar', box: [25, 27, 819, 897], folded: 'maroon' },
-  { id: 'noor', box: [50, 32, 820, 897] },
-  { id: 'rajshree', box: [12, 31, 817, 897], folded: 'navy' },
-  { id: 'swarna', box: [32, 21, 820, 897], folded: 'yellow' },
-  { id: 'veena', box: [5, 17, 816, 897], folded: 'ivory' },
-  { id: 'nilambari', box: [8, 25, 820, 897] },
+  { id: 'kaveri', colour: 'Parrot Green', hex: '#1f5a2c' },
+  { id: 'gulmohar', colour: 'Gulmohar Maroon', hex: '#6b1426', folded: 'maroon' },
+  { id: 'rajshree', colour: 'Midnight Navy', hex: '#1b2552', folded: 'navy' },
+  { id: 'nilambari', colour: 'Nilambari Purple', hex: '#4b1f6e' },
+  { id: 'swarna', colour: 'Marigold', hex: '#c9962a', folded: 'yellow' },
+  { id: 'madhavi', colour: 'Soft Lilac', hex: '#a993d6' },
 ];
-// depth stops from d = -1 (leaving past the rail) to d = 5 (arriving out of the haze)
-const KX = [1.2, 0.744, 0.496, 0.346, 0.235, 0.15, 0.085];
-const KF = [1.14, 0.89, 0.777, 0.704, 0.651, 0.616, 0.59];
-const KH = [1.18, 0.832, 0.574, 0.436, 0.334, 0.258, 0.19];
-const KB = [0, 0, 1.5, 4, 8, 12, 17];
-const KO = [1, 1, 1, 1, 0.86, 0.5, 0];
-
+const SHEET = { w: 820, h: 897 };
 const N = LOOKS.length;
 const NS = 'http://www.w3.org/2000/svg';
 const wrap = (x, n) => ((x % n) + n) % n;
-const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
 function crop(href, x0, y0, w, h, sheetW, sheetH) {
   const s = document.createElementNS(NS, 'svg');
   s.setAttribute('viewBox', `${x0} ${y0} ${w} ${h}`);
   s.setAttribute('aria-hidden', 'true');
-  s.setAttribute('preserveAspectRatio', 'xMidYMax meet');
   const f = document.createElementNS(NS, 'svg');
   [['x', x0], ['y', y0], ['width', w], ['height', h], ['viewBox', `${x0} ${y0} ${w} ${h}`]].forEach(([k, v]) => f.setAttribute(k, v));
   const i = document.createElementNS(NS, 'image');
@@ -53,8 +45,8 @@ function piecesFor(l) {
   const p = byId(l.id);
   const src = `/collection/${l.id}.webp`;
   const first = l.folded
-    ? { href: `/drape/cut-${l.folded}.webp`, box: [36, 4, 832, 592], sheet: [900, 600], name: `${p.name}`, price: inr(p.price) }
-    : { href: src, box: [120, 300, 700, 597], sheet: [SHEET.w, SHEET.h], name: `${p.name}`, price: inr(p.price) };
+    ? { href: `/drape/cut-${l.folded}.webp`, box: [36, 4, 832, 592], sheet: [900, 600], name: p.name, price: inr(p.price) }
+    : { href: src, box: [120, 300, 700, 597], sheet: [SHEET.w, SHEET.h], name: p.name, price: inr(p.price) };
   const second = { href: src, box: [430, 560, 380, 337], sheet: [SHEET.w, SHEET.h], name: `${p.notes[1]}, up close`, price: p.notes[0] };
   return [first, second].map((x) => ({ ...x, id: p.id }));
 }
@@ -62,22 +54,45 @@ function piecesFor(l) {
 export function setupRunway(root) {
   if (!root) return;
   const stage = root.querySelector('.rw__stage');
-  const line = root.querySelector('.rw__line');
+  const fig = root.querySelector('.rw__fig');
+  const body = root.querySelector('.rw__body');
+  const glint = root.querySelector('.rw__glint');
   const rail = root.querySelector('.rw__rail');
   const roll = root.querySelector('.rw__roll');
   const ring = root.querySelector('.rw__ring');
   const shop = root.querySelector('.rw__shop');
   const cartOut = root.querySelector('.rw__cart');
+  const words = root.querySelector('.rw__words');
+  const dots = root.querySelector('.rw__dots');
 
-  const people = LOOKS.map((l, i) => {
-    const [x0, y0, x1, y1] = l.box;
-    const e = document.createElement('div');
-    e.className = 'rw__m';
-    e.dataset.i = i;
-    e.append(crop(`/collection/${l.id}.webp`, x0, y0, x1 - x0, y1 - y0, SHEET.w, SHEET.h));
-    line.append(e);
-    return { e, r: (x1 - x0) / (y1 - y0), f: '', o: '' };
+  const layers = LOOKS.map((l) => {
+    const img = document.createElement('img');
+    img.className = 'rw__look-img';
+    img.src = `/fitting/${l.id}.webp`;
+    img.alt = '';
+    img.width = 610;
+    img.height = 897;
+    img.draggable = false;
+    img.decoding = 'async';
+    body.append(img);
+    return img;
   });
+  const names = LOOKS.map((l) => {
+    const w = document.createElement('span');
+    w.textContent = l.colour;
+    words.append(w);
+    return w;
+  });
+  const swatches = LOOKS.map((l, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.style.setProperty('--c', l.hex);
+    b.setAttribute('aria-label', `Try ${l.colour}`);
+    b.addEventListener('click', () => jump(i));
+    dots.append(b);
+    return b;
+  });
+
   const items = LOOKS.flatMap(piecesFor);
   const cards = items.map((it, i) => {
     const e = document.createElement('article');
@@ -105,60 +120,59 @@ export function setupRunway(root) {
   });
 
   /* ---- layout ---- */
-  let W = 0;
-  let H = 0;
-  let base = 0;
   let cardS = 0;
   let side = false;
   let dirty = true;
   let p = 0;
   let target = 0;
-  let last = 0;
-  let scrollPart = 0; // looks walked by page scroll while pinned
-  let manual = 0; // looks walked by drag, wheel-less keys and clicks
+  let scrollPart = 0; // looks walked by page scroll while the section is pinned
+  let manual = 0; // looks walked by drag, keys and swatches
   const size = () => {
-    W = stage.clientWidth;
-    H = stage.clientHeight;
-    base = H * 1.2;
     side = window.innerWidth <= 820;
-    people.forEach((m) => {
-      m.e.style.width = `${base * m.r}px`;
-      m.e.style.height = `${base}px`;
-    });
     cardS = side ? 160 : rail.clientHeight / 3;
     cards.forEach((c) => (c.style.height = side ? '100%' : `${cardS}px`));
     dirty = true;
   };
   window.addEventListener('resize', size);
 
+  /* ---- paint: everything from p ---- */
   let front = -1;
-  const paint = () => {
-    people.forEach((m, i) => {
-      let d = wrap(i - p, N);
-      if (d > N - 1) d -= N;
-      const k = clamp(d + 1, 0, 6);
-      const a = Math.floor(k);
-      const b = Math.min(6, a + 1);
-      const t = k - a;
-      const mix = (A) => A[a] + (A[b] - A[a]) * t;
-      const h = mix(KH) * H;
-      const s = h / base;
-      const w = h * m.r;
-      const x = mix(KX) * W - w / 2;
-      const y = mix(KF) * H - h;
-      m.e.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) scale(${s.toFixed(4)})`;
-      const f = mix(KB) / s;
-      const fs = f < 0.2 ? 'none' : `blur(${f.toFixed(1)}px)`;
-      const o = mix(KO).toFixed(3);
-      if (fs !== m.f) {
-        m.f = fs;
-        m.e.style.filter = fs;
-      }
-      if (o !== m.o) {
-        m.o = o;
-        m.e.style.opacity = o;
-      }
-      m.e.style.zIndex = 100 - Math.round(d * 10);
+  let lastA = -1;
+  let lastB = -1;
+  const paint = (time) => {
+    const a = wrap(Math.floor(p), N);
+    const b = wrap(a + 1, N);
+    const t = p - Math.floor(p); // 0 → 1 as look a turns into look b
+    if (a !== lastA || b !== lastB) {
+      layers.forEach((l, i) => {
+        l.style.zIndex = i === a ? 1 : i === b ? 2 : 0;
+        l.style.visibility = i === a || i === b ? 'visible' : 'hidden';
+      });
+      lastA = a;
+      lastB = b;
+    }
+    // the new colour runs down the drape from the shoulder to the hem
+    const edge = -18 + t * 136;
+    const m = `linear-gradient(172deg, #000 ${edge - 14}%, transparent ${edge + 6}%)`;
+    layers[b].style.webkitMaskImage = m;
+    layers[b].style.maskImage = m;
+    layers[a].style.webkitMaskImage = 'none';
+    layers[a].style.maskImage = 'none';
+    // zari light riding the edge, only on the fabric
+    const live = t > 0.002 && t < 0.998;
+    glint.style.opacity = live ? String(Math.sin(t * Math.PI) * 0.95) : '0';
+    glint.style.setProperty('--edge', `${edge - 4}%`);
+    // her body answers the change: a lift, a half-turn of the shoulders, then settles
+    const s = Math.sin(t * Math.PI);
+    const dir = target >= p ? 1 : -1;
+    const breathe = reduced() ? 0 : Math.sin(time / 1100);
+    fig.style.transform = `translate3d(${(s * 10 * dir).toFixed(2)}px, ${(-s * 10 + breathe * 1.5).toFixed(2)}px, 0) rotate(${(s * 1.1 * dir + breathe * 0.25).toFixed(3)}deg) scale(${(1 + breathe * 0.004 - s * 0.012).toFixed(4)}, ${(1 + breathe * 0.004 + s * 0.006).toFixed(4)})`;
+    // colour name behind her cross-fades and drifts
+    names.forEach((w, i) => {
+      const d = ((i - p + N * 10 + N / 2) % N) - N / 2; // -3 … 3
+      const o = Math.max(0, 1 - Math.abs(d) * 1.4);
+      w.style.opacity = o.toFixed(3);
+      w.style.transform = `translate3d(${(d * 30).toFixed(1)}%, -50%, 0)`;
     });
     const all = cardS * items.length;
     cards.forEach((c, i) => {
@@ -171,7 +185,8 @@ export function setupRunway(root) {
     if (f !== front) {
       front = f;
       shop.href = `/product.html?id=${LOOKS[f].id}`;
-      stage.setAttribute('aria-label', `Runway, look ${String(f + 1).padStart(2, '0')}: ${byId(LOOKS[f].id).name}. Drag or use the arrow keys to change look.`);
+      swatches.forEach((sw, i) => sw.setAttribute('aria-pressed', String(i === f)));
+      stage.setAttribute('aria-label', `Virtual fitting, look ${String(f + 1).padStart(2, '0')}: ${LOOKS[f].colour}. Drag or use the arrow keys to change the saree.`);
     }
   };
 
@@ -185,25 +200,29 @@ export function setupRunway(root) {
   let st = 0;
   let moved = 0;
   let visible = false;
-  const PULL = () => Math.max(150, W * 0.2);
+  let last = 0;
+  const PULL = () => Math.max(150, stage.clientWidth * 0.2);
   const setTarget = () => (target = scrollPart + manual);
+  const jump = (i) => {
+    const d = Math.round(wrap(i - Math.round(target), N));
+    manual = Math.round(manual) + (d > N / 2 ? d - N : d);
+    setTarget();
+  };
 
-  const frame = (now) => {
+  gsap.ticker.add(() => {
+    if (!visible) return;
+    const now = performance.now();
     const dt = Math.min(50, now - last) || 16;
     last = now;
-    const was = p;
     if (reduced()) p = target;
     else p += (target - p) * (1 - Math.exp(-dt * 0.0072));
     if (Math.abs(target - p) < 0.0004) p = target;
-    if (p !== was || dirty) {
-      dirty = false;
-      paint();
-    }
+    paint(now);
+    dirty = false;
     cx += (mx - cx) * 0.32;
     cy += (my - cy) * 0.32;
     ring.style.transform = `translate3d(${cx.toFixed(1)}px,${cy.toFixed(1)}px,0)`;
-  };
-  gsap.ticker.add(() => visible && frame(performance.now()));
+  });
 
   const fine = window.matchMedia('(pointer: fine)').matches;
   stage.addEventListener('pointerenter', (e) => {
@@ -226,7 +245,7 @@ export function setupRunway(root) {
     setTarget();
   });
   stage.addEventListener('pointerdown', (e) => {
-    if (e.target.closest('a') || e.button !== 0) return;
+    if (e.target.closest('a, button') || e.button !== 0) return;
     down = true;
     sx = e.clientX;
     st = manual;
@@ -234,39 +253,31 @@ export function setupRunway(root) {
     if (e.pointerType === 'mouse') stage.setPointerCapture(e.pointerId);
     ring.classList.add('drag');
   });
-  const release = (e) => {
+  const release = () => {
     if (!down) return;
     down = false;
     ring.classList.remove('drag');
-    if (moved < 6) {
-      const hit = document.elementsFromPoint(e.clientX, e.clientY).find((x) => x.classList?.contains('rw__m'));
-      if (hit) {
-        const d = Math.round(wrap(Number(hit.dataset.i) - target, N));
-        if (d > 0 && d < N) manual = Math.round(manual) + d;
-      }
-    } else manual = Math.round(manual + scrollPart) - scrollPart;
+    if (moved < 6 && fig.matches(':hover')) jump(Math.round(target) + 1); // a tap on her tries the next saree
+    else manual = Math.round(manual + scrollPart) - scrollPart;
     setTarget();
   };
   stage.addEventListener('pointerup', release);
   stage.addEventListener('pointercancel', release);
   stage.addEventListener('keydown', (e) => {
-    if (['ArrowRight', 'ArrowDown'].includes(e.key)) {
-      e.preventDefault();
-      manual = Math.round(target) + 1 - scrollPart;
-    } else if (['ArrowLeft', 'ArrowUp'].includes(e.key)) {
-      e.preventDefault();
-      manual = Math.round(target) - 1 - scrollPart;
-    } else return;
+    if (['ArrowRight', 'ArrowDown'].includes(e.key)) manual = Math.round(target) + 1 - scrollPart;
+    else if (['ArrowLeft', 'ArrowUp'].includes(e.key)) manual = Math.round(target) - 1 - scrollPart;
+    else return;
+    e.preventDefault();
     setTarget();
   });
   stage.addEventListener('dragstart', (e) => e.preventDefault());
 
-  /* ---- page scroll walks the line: the section pins for one step per look ---- */
+  /* ---- page scroll changes the saree: the section pins for one step per look ---- */
   const STEPS = N - 1;
   const pin = ScrollTrigger.create({
     trigger: root,
     start: 'top top',
-    end: () => `+=${Math.round(window.innerHeight * 0.55 * STEPS)}`,
+    end: () => `+=${Math.round(window.innerHeight * 0.6 * STEPS)}`,
     pin: true,
     anticipatePin: 1,
     onUpdate: (self) => {
@@ -274,7 +285,7 @@ export function setupRunway(root) {
       setTarget();
     },
   });
-  // 150 ms after the scroll stops inside the pin, settle on the nearest whole look
+  // 160 ms after the scroll stops inside the pin, settle softly on the nearest whole look
   let snapT = 0;
   lenisNow()?.on('scroll', () => {
     clearTimeout(snapT);
@@ -283,8 +294,8 @@ export function setupRunway(root) {
       if (!pin.isActive || !l || down) return;
       const step = (pin.end - pin.start) / STEPS;
       const to = pin.start + Math.round((l.targetScroll - pin.start) / step) * step;
-      if (Math.abs(to - l.targetScroll) > 2) l.scrollTo(to, { duration: 0.6, easing: (e) => 1 - (1 - e) ** 3 });
-    }, 150);
+      if (Math.abs(to - l.targetScroll) > 2) l.scrollTo(to, { duration: 0.9, easing: (e) => 1 - (1 - e) ** 3 });
+    }, 160);
   });
   ScrollTrigger.create({
     trigger: root,
@@ -292,14 +303,14 @@ export function setupRunway(root) {
     end: 'bottom top',
     onToggle: (self) => {
       visible = self.isActive;
-      if (visible) dirty = true;
+      last = performance.now();
     },
   });
 
   size();
-  paint();
+  paint(0);
   Promise.all(
-    [...new Set([...LOOKS.map((l) => `/collection/${l.id}.webp`), ...items.map((i) => i.href)])].map((u) => {
+    [...new Set([...layers.map((l) => l.src), ...items.map((i) => i.href)])].map((u) => {
       const i = new Image();
       i.src = u;
       return i.decode().catch(() => {});

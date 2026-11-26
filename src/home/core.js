@@ -14,7 +14,8 @@ export const clamp01 = (v) => Math.min(1, Math.max(0, v));
 let lenis = null;
 export function getLenis() {
   if (lenis || reduced()) return lenis;
-  lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 0.85, touchMultiplier: 1.4, autoRaf: false });
+  // a lower lerp gives a longer, silkier glide; touch keeps native momentum
+  lenis = new Lenis({ lerp: 0.072, wheelMultiplier: 0.9, touchMultiplier: 1.2, smoothWheel: true, autoRaf: false });
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((t) => lenis?.raf(t * 1000));
   gsap.ticker.lagSmoothing(0);
@@ -33,8 +34,8 @@ export function scrollTo(target, opts = {}) {
 export function sectionSnap() {
   const l = lenis;
   if (!l) return () => {};
-  const DOWN = 0.6;
-  const LAST = 0.3;
+  const DOWN = 0.4;
+  const LAST = 0.22;
   const EDGE = 12;
   let t1 = 0;
   let t2 = 0;
@@ -87,8 +88,8 @@ export function sectionSnap() {
     if (dist > (i === 0 ? span * 0.97 : (last ? LAST : DOWN) * vh)) return;
     busy = true;
     l.scrollTo(to, {
-      duration: 1.4 + 0.8 * Math.min(1, dist / vh),
-      easing: (e) => 1 - (1 - e) ** 3,
+      duration: 1.6 + 0.9 * Math.min(1, dist / vh),
+      easing: (e) => (e < 0.5 ? 4 * e * e * e : 1 - (-2 * e + 2) ** 3 / 2),
       onComplete: () => (busy = false),
     });
   };

@@ -45,7 +45,10 @@ function petals(back, front, { count, getProgress, project }) {
     flip: rnd(0, Math.PI * 2), vf: rnd(0.8, 2), hue: rnd(340, 356), back: Math.random() < 0.7,
   }));
   let gust = 0;
+  let onScreen = true; // skip drawing while the hero is scrolled away
+  new IntersectionObserver(([e]) => (onScreen = e.isIntersecting)).observe(front);
   gsap.ticker.add((_, dms) => {
+    if (!onScreen) return;
     const dt = Math.min(dms, 50) / 1000;
     const vel = lenisNow()?.velocity ?? 0;
     gust += (Math.min(Math.abs(vel), 60) / 60 - gust) * 0.08;
@@ -221,7 +224,7 @@ export function setupHero({ onReady }) {
         start: 'top top',
         end: () => `+=${window.innerHeight * PER_SLIDE * (COUNT - 1)}`,
         pin: true,
-        scrub: rm ? true : 0.6,
+        scrub: rm ? true : 0.9,
         invalidateOnRefresh: true,
         snap: lenisNow() ? undefined : { snapTo: 1 / (COUNT - 1), duration: { min: 0.3, max: 0.8 }, ease: 'power2.inOut' },
         onUpdate: () => setActive(Math.round(state.p)),
