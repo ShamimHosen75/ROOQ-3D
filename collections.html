@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Collections · ROOQ Clothing Atelier</title>
+    <meta name="description" content="Shop handloom silks, organzas, velvets and festive sarees from ROOQ Clothing Atelier." />
+    <meta name="theme-color" content="#f3e4df" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="page page--collections">
+    <main>
+      <section class="phero phero--shop">
+        <img class="phero__arc phero__arc--a" src="/images/ui/arc-big.png" alt="" aria-hidden="true" />
+        <img class="phero__arc phero__arc--b" src="/images/ui/arc-small.png" alt="" aria-hidden="true" />
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span aria-current="page">Collections</span></nav>
+        <p class="eyebrow" data-reveal>The collection</p>
+        <h1 class="phero__title" data-split>Sarees</h1>
+        <p class="phero__lead" data-reveal>Handloom silks, featherlight organzas and hand-embroidered velvets, woven slowly and finished by hand.</p>
+      </section>
+      <section class="shop">
+        <div class="shop__bar">
+          <div class="pills" role="tablist" aria-label="Filter sarees"></div>
+          <div class="shop__tools">
+            <span class="shop__count" aria-live="polite"></span>
+            <label class="select"><span class="sr-only">Sort by</span>
+              <select class="shop__sort">
+                <option value="featured">Featured</option>
+                <option value="low">Price: low to high</option>
+                <option value="high">Price: high to low</option>
+                <option value="name">Name</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div class="grid shop__grid"></div>
+      </section>
+      <section class="cta-band">
+        <div class="cta-band__inner" data-reveal>
+          <p class="eyebrow">Not sure where to start?</p>
+          <h2 class="cta-band__title">Lift a drape, feel its weight.</h2>
+          <a class="btn" href="/#drape">Try Pick a Drape <svg viewBox="0 0 24 12"><path d="M0 6h22M17 1l5 5-5 5" /></svg></a>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="/src/js/pages/collections.js"></script>
+  </body>
+</html>

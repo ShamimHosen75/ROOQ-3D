@@ -69,3 +69,23 @@ src/js/
   split.js       text splitting for reveals
 tools/           stand-in image renderer
 ```
+
+## Pages
+
+| Page | File | Script |
+| --- | --- | --- |
+| Home (hero, Pick a Drape, Sarees grid, reviews) | `index.html` | `src/js/main.js` |
+| Collections (filter + sort, links into products) | `collections.html` | `src/js/pages/collections.js` |
+| Single product (`product.html?id=noor`) | `product.html` | `src/js/pages/product.js` |
+| About | `about.html` | `src/js/pages/about.js` |
+| Contact | `contact.html` | `src/js/pages/contact.js` |
+
+The header, footer (with the big gold ROOQ wordmark), petal cursor, bag drawer and the curtain between pages are shared by every page and built in `src/js/shared.js`. Styles for them and the inner pages are in `src/css/pages.css`.
+
+**Things to edit before going live**
+
+- Store address, hours, phone, email, WhatsApp and social links: `STORE` at the top of `src/js/shared.js`.
+- Product copy (description, fabric, colour, story, extra photos): `src/js/products.js`.
+- Reviews: `src/js/reviews.js` holds **sample** reviews written for the template. Replace them with real ones.
+- The bag lives in the visitor's browser only. "Enquire to order" opens the contact page with the bag written into the message, and the contact form opens the visitor's email app addressed to `STORE.email`. Connect a payment or form service when you want real checkout.
+- The newsletter field in the footer only shows a thank-you message; connect it to your mailing list provider.

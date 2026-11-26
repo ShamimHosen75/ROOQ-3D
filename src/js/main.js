@@ -1,20 +1,16 @@
 import '../css/main.css';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Lenis from 'lenis';
 import { split } from './split.js';
-import { DRAPES } from './drapes.js';
 import { HeroSlider } from './heroSlider.js';
 import { HeroPetals } from './heroPetals.js';
 import { Playground } from './playground.js';
 import { Viewer } from './viewer.js';
 import { setupCollection } from './collection.js';
+import { setupReviews } from './reviewsSection.js';
+import { initSite, lenis, cursor, scrollTo, reduced, $, $$, reveals } from './shared.js';
 
-gsap.registerPlugin(ScrollTrigger);
-
-const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const $ = (s, el = document) => el.querySelector(s);
-const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const { header: siteHeader } = initSite({ page: 'home' });
 
 // Hero images: replace the files in public/images with your own photos (same names).
 const SLIDES = [
@@ -24,56 +20,6 @@ const SLIDES = [
   { image: '/images/hero-4.jpg', gold: '#e8bf62' },
   { image: '/images/hero-5.jpg', gold: '#f3d27a' },
 ];
-
-/* ---------------- Smooth scroll ---------------- */
-let lenis = null;
-if (!reduced) {
-  lenis = new Lenis({ lerp: 0.09, wheelMultiplier: 0.85 });
-  lenis.on('scroll', ScrollTrigger.update);
-  gsap.ticker.add((time) => lenis.raf(time * 1000));
-  gsap.ticker.lagSmoothing(0);
-}
-const scrollTo = (target, opts = {}) => {
-  const y = typeof target === 'number' ? target : $(target).getBoundingClientRect().top + window.scrollY;
-  if (lenis) lenis.scrollTo(y, { duration: 1.6, easing: (t) => 1 - Math.pow(1 - t, 4), ...opts });
-  else window.scrollTo({ top: y });
-};
-
-/* ---------------- Cursor ---------------- */
-const cursor = (() => {
-  const el = $('.cursor');
-  const pos = $('.cursor__pos');
-  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
-  if (fine) document.documentElement.classList.add('has-cursor');
-  let x = -100;
-  let y = -100;
-  window.addEventListener('pointermove', (e) => {
-    x = e.clientX;
-    y = e.clientY;
-    el.classList.remove('is-hidden');
-  });
-  document.addEventListener('pointerleave', () => el.classList.add('is-hidden'));
-  gsap.ticker.add(() => {
-    pos.style.transform = `translate(${x}px, ${y}px)`;
-  });
-  document.addEventListener('pointerover', (e) => {
-    if (el.classList.contains('is-hover') || el.classList.contains('is-hold')) return;
-    el.classList.toggle('is-link', !!e.target.closest('a, button'));
-  });
-  return {
-    get x() {
-      return x;
-    },
-    get y() {
-      return y;
-    },
-    // 'default' (petal), 'hover' (ring), 'hold' (dot)
-    setState(state) {
-      el.classList.remove('is-hover', 'is-hold', 'is-link');
-      if (state !== 'default') el.classList.add(`is-${state}`);
-    },
-  };
-})();
 
 /* ---------------- Hero ---------------- */
 const slides = $$('.slide');
@@ -179,9 +125,9 @@ $$('[data-scroll-to]').forEach((a) =>
 );
 
 /* ---------------- Site header: shown on scroll-up after the hero ---------------- */
-const siteHeader = $('.site-header');
 let lastY = 0;
 const onScroll = (y) => {
+  if (document.body.classList.contains('menu-open')) return;
   const pastHero = heroTrigger && y > heroTrigger.end - 40;
   const up = y < lastY - 2;
   if (!pastHero) siteHeader.classList.remove('is-shown');
@@ -310,10 +256,18 @@ slider = new HeroSlider($('.hero__media'), SLIDES, {
 setupDrape();
 setupHero();
 setupCollection({ reduced });
+setupReviews($('.reviews'), { reduced });
+reveals();
 gsap.ticker.add((time) => {
   slider.tick();
   heroPetals.tick(time);
   playground.tick();
   viewer.tick(time);
 });
-document.fonts.ready.then(() => ScrollTrigger.refresh());
+// arriving from another page with #drape, #collections or #reviews
+if (location.hash && $(location.hash)) {
+  document.fonts.ready.then(() => {
+    ScrollTrigger.refresh();
+    scrollTo(location.hash, { immediate: true });
+  });
+}

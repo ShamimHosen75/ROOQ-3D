@@ -16,36 +16,6 @@
     />
   </head>
   <body>
-    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
-      <symbol id="rooq-mark" viewBox="0 0 64 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
-        <path d="M32 3c5.5 6 5.5 18 0 27-5.5-9-5.5-21 0-27z" />
-        <path d="M32 30c-1.5-8-7.5-14.5-16-16 0 9.5 7 16 16 16z" />
-        <path d="M32 30c1.5-8 7.5-14.5 16-16 0 9.5-7 16-16 16z" />
-        <path d="M31 31C25 26 14 24 5 26c5 6 15 8 26 5z" />
-        <path d="M33 31c6-5 17-7 26-5-5 6-15 8-26 5z" />
-      </symbol>
-    </svg>
-
-    <div class="cursor" aria-hidden="true">
-      <div class="cursor__pos">
-        <svg class="cursor__petal" width="28" height="34" viewBox="0 0 28 34"><defs><linearGradient id="pc-g" x1="2" y1="2" x2="22" y2="32" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffd4de" /><stop offset="0.55" stop-color="#f48aa6" /><stop offset="1" stop-color="#d4476f" /></linearGradient></defs><path d="M2 2 C8 4 20 8 25 17 C28.5 24 22 32.5 14 32 C6 31.4 1.5 21 1.8 12 C1.9 8 2 5 2 2Z" fill="url(#pc-g)" /><path d="M2.6 3.4 C6 12 10 22 14 30" fill="none" stroke="#fff2f5" stroke-opacity=".5" stroke-width=".8" stroke-linecap="round" /><path d="M2.6 3.4 C11 7 19 12 22 20" fill="none" stroke="#c63a62" stroke-opacity=".28" stroke-width=".7" stroke-linecap="round" /></svg>
-        <svg class="cursor__ring" width="34" height="34" viewBox="0 0 34 34"><circle cx="17" cy="17" r="8.5" fill="none" stroke="#fbefe6" stroke-width="3" stroke-opacity=".9" /><circle cx="17" cy="17" r="8.5" fill="none" stroke="#3a2418" stroke-width="1.1" /></svg>
-        <svg class="cursor__dot" width="34" height="34" viewBox="0 0 34 34"><circle cx="17" cy="17" r="7.5" fill="#3a2418" stroke="#fbefe6" stroke-width="2.2" /><circle cx="17" cy="17" r="2" fill="#c9a463" /></svg>
-      </div>
-    </div>
-
-    <!-- Site header: appears once you are past the hero, when scrolling up -->
-    <header class="site-header">
-      <a href="#hero" class="logo logo--sm" data-scroll-to="#hero">
-        <svg viewBox="0 0 64 40" class="mark"><use href="#rooq-mark" /></svg>
-        <strong>ROOQ</strong><span>Clothing Atelier</span>
-      </a>
-      <nav class="site-nav">
-        <a href="#drape" data-scroll-to="#drape">Pick a Drape</a>
-        <a href="#collections" data-scroll-to="#collections">Collections</a>
-        <a href="#about" data-scroll-to="#about">About</a>
-      </nav>
-    </header>
 
     <main>
       <!-- HERO: five full-screen slides with fabric-sweep transitions -->
@@ -154,21 +124,12 @@
           <button class="pill" data-cat="festive">Festive</button>
         </div>
         <div class="grid"></div>
+        <div class="collection__more"><a class="btn" href="/collections.html">View the full collection <svg viewBox="0 0 24 12"><path d="M0 6h22M17 1l5 5-5 5" /></svg></a></div>
       </section>
-    </main>
 
-    <footer class="footer" id="about">
-      <a href="#hero" class="logo footer__logo" data-scroll-to="#hero">
-        <svg viewBox="0 0 64 40" class="mark"><use href="#rooq-mark" /></svg>
-        <strong>ROOQ</strong><span>Clothing Atelier</span>
-      </a>
-      <address class="footer__info">
-        <span>Store address · City</span>
-        <span>Open daily · 10:30 am – 9 pm</span>
-        <a href="tel:+910000000000">+91 00000 00000</a>
-      </address>
-      <p class="footer__copy">© ROOQ Clothing Atelier. All rights reserved.</p>
-    </footer>
+      <!-- KIND WORDS: customer reviews (sample text in src/js/reviews.js) -->
+      <section class="reviews" id="reviews" aria-label="Customer reviews"></section>
+    </main>
 
     <!-- DETAIL -->
     <div class="detail" aria-hidden="true" role="dialog" aria-label="Your selection">
