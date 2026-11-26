@@ -67,7 +67,7 @@ export class PetalField {
     p.sx = (Math.random() - 0.5) * 2.2;
     p.sy = (Math.random() - 0.5) * 1.6;
     p.phase = Math.random() * 100;
-    p.size = 0.22 + Math.random() * 0.26;
+    p.size = 0.34 + Math.random() * 0.34;
     p.rest = 0;
     p.scale = anywhere ? 1 : 0;
     return p;

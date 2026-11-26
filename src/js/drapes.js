@@ -72,20 +72,6 @@ export const DRAPES = [
     motifType: 'rose',
     sheen: '#7a5a50',
   },
-  {
-    id: 'rose',
-    name: 'Rose Quartz',
-    category: 'silk',
-    fabric: 'Tussar silk · mukaish',
-    note: 'Dusky rose tussar dotted with silver mukaish, soft as the hour before sunrise.',
-    base: '#d9939a',
-    shade: '#b06a72',
-    motif: '#fbe7e2',
-    border: '#8a3f4c',
-    zari: '#efd9c4',
-    motifType: 'dots',
-    sheen: '#ffe0e4',
-  },
 ];
 
 export const CATEGORIES = ['all', 'silk', 'organza', 'velvet', 'bridal', 'festive'];

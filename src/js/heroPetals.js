@@ -12,7 +12,7 @@ export class HeroPetals {
       this.mouse.y = e.clientY;
     });
     this.resize();
-    const n = reduced ? 10 : window.innerWidth < 700 ? 22 : 42;
+    const n = reduced ? 6 : window.innerWidth < 700 ? 10 : 16;
     this.p = Array.from({ length: n }, () => this.spawn({}, true));
   }
 
@@ -69,8 +69,8 @@ export class HeroPetals {
       ctx.scale(1, Math.abs(Math.cos(p.flip)) * 0.7 + 0.3);
       ctx.globalAlpha = 0.45 + p.z * 0.4;
       const g = ctx.createLinearGradient(0, -s, 0, s);
-      g.addColorStop(0, '#ffd8e2');
-      g.addColorStop(1, '#e45a7f');
+      g.addColorStop(0, '#f08aa6');
+      g.addColorStop(1, '#a3163f');
       ctx.fillStyle = g;
       ctx.beginPath();
       ctx.moveTo(0, s);

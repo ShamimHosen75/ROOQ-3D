@@ -34,13 +34,14 @@ export class Playground {
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
+    this.camera.aspect = container.clientWidth / Math.max(1, container.clientHeight);
 
     this.setupLights();
     this.setupPhysics();
     this.setupDrapes();
 
     this.petals = new PetalField(this.scene, {
-      count: reduced ? 24 : window.innerWidth < 760 ? 40 : 80,
+      count: reduced ? 12 : window.innerWidth < 760 ? 18 : 30,
       bounds: { xMin: -8, xMax: 8, zMin: -5, zMax: 5, top: 7 },
       reduced,
     });
@@ -119,6 +120,7 @@ export class Playground {
       this.scene.add(mesh);
       const body = new CANNON.Body({
         mass: 1.2,
+        type: CANNON.Body.KINEMATIC,
         shape: new CANNON.Box(half),
         linearDamping: 0.12,
         angularDamping: 0.35,
@@ -126,44 +128,62 @@ export class Playground {
         sleepTimeLimit: 0.6,
       });
       this.world.addBody(body);
-      const item = { drape, mesh, body, opacity: { v: 1 }, index: i };
+      const item = { drape, mesh, body, opacity: { v: 1 }, index: i, floating: true, home: new THREE.Vector3(), homeRot: new THREE.Euler(), enter: { v: 9 }, hop: { v: 0 }, phase: Math.random() * 10 };
       mesh.userData.item = item;
       return item;
     });
     this.meshes = this.items.map((i) => i.mesh);
-    this.layout(true);
+    this.layout();
   }
 
-  /** Scatter drapes across the visible floor; `fromSky` drops them in from above. */
-  layout(fromSky) {
+  /** Arrange the floating drapes at fixed spots on screen (matching the reference layout). */
+  layout() {
     const portrait = this.camera.aspect < 1;
-    const cols = portrait ? 2 : 3;
-    const rows = Math.ceil(this.items.length / cols);
-    const b = this.bounds || { xMin: -6, xMax: 6, zMin: -3, zMax: 3 };
-    const xStart = portrait ? b.xMin + 0.3 : THREE.MathUtils.lerp(b.xMin, b.xMax, 0.3);
-    const xEnd = b.xMax - (portrait ? 1.5 : 1.4);
-    // portrait: keep the pile in the middle band, clear of the title and footer copy
-    const zA = portrait ? THREE.MathUtils.lerp(b.zMin, b.zMax, 0.38) : b.zMin + 1.6;
-    const zB = portrait ? THREE.MathUtils.lerp(b.zMin, b.zMax, 0.72) : b.zMax - 1.8;
+    // [screen x 0..1, screen y 0..1, height above the floor]
+    const spots = portrait
+      ? [[0.3, 0.36, 2.4], [0.72, 0.42, 2.0], [0.7, 0.24, 2.8], [0.33, 0.6, 1.6], [0.68, 0.64, 1.4]]
+      : [[0.32, 0.2, 2.4], [0.55, 0.21, 2.2], [0.83, 0.13, 2.8], [0.36, 0.56, 1.5], [0.76, 0.46, 1.8]];
+    const order = ['ivory', 'ruby', 'midnight', 'noir', 'saffron'];
+    const ray = new THREE.Raycaster();
     this.items.forEach((item, i) => {
-      const col = i % cols;
-      const row = Math.floor(i / cols);
-      const x = THREE.MathUtils.lerp(xStart + 1.2, xEnd, cols === 1 ? 0.5 : col / (cols - 1)) + (Math.random() - 0.5) * 0.8;
-      const z = THREE.MathUtils.lerp(zA, zB, rows > 1 ? row / (rows - 1) : 0.5) + (col % 2 ? 0.6 : -0.4) * (portrait ? 0.4 : 1);
-      const { body } = item;
-      body.position.set(x, fromSky ? 9 + i * 1.6 : DRAPE_SIZE.y / 2 + 0.05, z);
-      body.quaternion.setFromEuler((Math.random() - 0.5) * 0.5, (Math.random() - 0.5) * 1.2, (Math.random() - 0.5) * 0.4);
-      body.velocity.setZero();
-      body.angularVelocity.setZero();
-      body.wakeUp();
+      const k = Math.max(0, order.indexOf(item.drape.id));
+      const [sx, sy, h] = spots[k] || spots[i % spots.length];
+      ray.setFromCamera(new THREE.Vector2(sx * 2 - 1, 1 - sy * 2), this.camera);
+      ray.ray.intersectPlane(new THREE.Plane(new THREE.Vector3(0, 1, 0), -h), item.home);
+      item.homeRot.set(0.1 + (Math.random() - 0.5) * 0.16, -0.18 + (Math.random() - 0.5) * 0.4, (Math.random() - 0.5) * 0.1);
+      if (item.floating) this.placeFloating(item, 0);
     });
   }
 
-  /** Called when the section first scrolls into view. */
+  placeFloating(item, t) {
+    const { body, home, homeRot, phase } = item;
+    const bob = this.reduced ? 0 : Math.sin(t * 0.9 + phase) * 0.16;
+    body.position.set(home.x, home.y + bob + item.enter.v + item.hop.v, home.z);
+    body.quaternion.setFromEuler(
+      homeRot.x + (this.reduced ? 0 : Math.sin(t * 0.7 + phase) * 0.05),
+      homeRot.y + (this.reduced ? 0 : Math.sin(t * 0.4 + phase * 2) * 0.06),
+      homeRot.z + (this.reduced ? 0 : Math.cos(t * 0.8 + phase) * 0.05),
+    );
+  }
+
+  setFloating(item, on) {
+    const { body } = item;
+    item.floating = on;
+    body.type = on ? CANNON.Body.KINEMATIC : CANNON.Body.DYNAMIC;
+    body.mass = on ? 0 : 1.2;
+    body.updateMassProperties();
+    body.velocity.setZero();
+    body.angularVelocity.setZero();
+    body.wakeUp();
+  }
+
+  /** Called when the section first scrolls into view: drapes drift down into place. */
   start() {
     if (this.started) return;
     this.started = true;
-    if (this.reduced) this.layout(false);
+    this.items.forEach((item, i) => {
+      gsap.to(item.enter, { v: 0, duration: this.reduced ? 0 : 2.2, delay: this.reduced ? 0 : i * 0.12, ease: 'power3.out' });
+    });
   }
 
   setFilter(cat) {
@@ -178,8 +198,12 @@ export class Playground {
       });
       if (on && cat !== 'all' && !this.reduced) {
         // matching drapes hop to say hello
-        item.body.wakeUp();
-        item.body.applyImpulse(new CANNON.Vec3(0, 9, 0), new CANNON.Vec3(0.2, 0, 0.1));
+        if (item.floating) {
+          gsap.timeline().to(item.hop, { v: 0.7, duration: 0.35, ease: 'power2.out' }).to(item.hop, { v: 0, duration: 0.9, ease: 'bounce.out' });
+        } else {
+          item.body.wakeUp();
+          item.body.applyImpulse(new CANNON.Vec3(0, 9, 0), new CANNON.Vec3(0.2, 0, 0.1));
+        }
       }
     });
   }
@@ -232,6 +256,7 @@ export class Playground {
   }
 
   grab(item, point) {
+    if (item.floating) this.setFloating(item, false);
     const { body } = item;
     // pivot in body-local space so the drape hangs from where it was picked
     const local = new CANNON.Vec3();
@@ -265,10 +290,9 @@ export class Playground {
       this.onSelect?.(item.drape);
       // send it back to the pile from above once the detail view has opened
       setTimeout(() => {
-        const b = this.bounds;
-        item.body.position.set(THREE.MathUtils.lerp(b.xMin + 3, b.xMax - 2, Math.random()), 10, THREE.MathUtils.lerp(b.zMin + 1, b.zMax - 1, Math.random()));
-        item.body.velocity.setZero();
-        item.body.angularVelocity.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
+        this.setFloating(item, true);
+        item.enter.v = 8;
+        gsap.to(item.enter, { v: 0, duration: 2, ease: 'power3.out' });
       }, 700);
     }
   }
@@ -279,8 +303,8 @@ export class Playground {
     this.renderer.setSize(w, h, false);
     this.camera.aspect = w / h;
     const far = Math.max(1, 0.95 / this.camera.aspect);
-    this.camera.position.set(0, 17 * far, 10.5 * far);
-    this.camera.lookAt(0, 0, 0.6);
+    this.camera.position.set(0, 9.5 * far, 13.5 * far);
+    this.camera.lookAt(0, 1.1, 0);
     this.camera.updateProjectionMatrix();
     this.camera.updateMatrixWorld();
 
@@ -288,7 +312,7 @@ export class Playground {
     const corner = (x, y) => {
       this.raycaster.setFromCamera(new THREE.Vector2(x, y), this.camera);
       const p = new THREE.Vector3();
-      this.raycaster.ray.intersectPlane(new THREE.Plane(new THREE.Vector3(0, 1, 0), -0.3), p);
+      this.raycaster.ray.intersectPlane(new THREE.Plane(new THREE.Vector3(0, 1, 0), -1.6), p);
       return p;
     };
     const bl = corner(-1, -1);
@@ -305,7 +329,7 @@ export class Playground {
     front.position.set(0, 0, this.bounds.zMax);
     front.quaternion.setFromEuler(0, Math.PI, 0);
     this.petals?.setBounds({ ...this.bounds, xMin: tl.x, xMax: -tl.x, top: 8 });
-    if (!this.started) this.layout(true);
+    this.layout();
   }
 
   setActive(v) {
@@ -317,7 +341,8 @@ export class Playground {
     const t = this.clock.elapsedTime;
     if (!this.active) return;
 
-    if (this.started) this.world.step(1 / 60, dt, 5);
+    this.items.forEach((item) => item.floating && this.placeFloating(item, t));
+    this.world.step(1 / 60, dt, 5);
 
     // pointer → lift plane for the held drape, floor for petal gusts
     this.raycaster.setFromCamera(this.ndc, this.camera);

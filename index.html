@@ -3,10 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ROOQ Atelier · Drapes in 3D</title>
-    <meta name="description" content="ROOQ Atelier: hand-finished drapes, presented as an interactive 3D study of silk, weight and light." />
-    <meta name="theme-color" content="#f5e9e4" />
+    <title>ROOQ · Clothing Atelier</title>
+    <meta name="description" content="ROOQ Clothing Atelier: sarees, lehengas and fusion wear, with an interactive 3D drape study." />
+    <meta name="theme-color" content="#f3e4df" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/images/hero-1.jpg" as="image" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,206 +16,131 @@
     />
   </head>
   <body>
-    <!-- Loader -->
-    <div class="loader" aria-hidden="true">
-      <div class="loader__mark">
-        <svg viewBox="0 0 64 40" class="mark"><use href="#rooq-mark" /></svg>
-      </div>
-      <div class="loader__word"><span>R</span><span>O</span><span>O</span><span>Q</span></div>
-      <div class="loader__meta"><span>Unfolding the atelier</span><span class="loader__count">0</span></div>
-      <div class="loader__bar"><i></i></div>
-    </div>
-
-    <svg width="0" height="0" style="position: absolute">
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
       <symbol id="rooq-mark" viewBox="0 0 64 40">
-        <path d="M32 4c5 7 5 17 0 26-5-9-5-19 0-26Z" fill="none" stroke="currentColor" stroke-width="1.6" />
-        <path d="M32 30C26 22 17 18 8 19c4 8 13 12 24 11Z" fill="none" stroke="currentColor" stroke-width="1.6" />
-        <path d="M32 30c6-8 15-12 24-11-4 8-13 12-24 11Z" fill="none" stroke="currentColor" stroke-width="1.6" />
-        <path d="M14 35h36" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+        <path d="M32 6c4 6 4 14 0 21-4-7-4-15 0-21Z" fill="none" stroke="currentColor" stroke-width="1.5" />
+        <path d="M32 27c-5-6-12-9-20-8 3 6 11 9 20 8Z" fill="none" stroke="currentColor" stroke-width="1.5" />
+        <path d="M32 27c5-6 12-9 20-8-3 6-11 9-20 8Z" fill="none" stroke="currentColor" stroke-width="1.5" />
+        <path d="M22 13c2 4 5 7 10 9M42 13c-2 4-5 7-10 9" fill="none" stroke="currentColor" stroke-width="1.2" />
+        <path d="M16 32h32" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
       </symbol>
     </svg>
 
-    <!-- Cursor -->
-    <div class="cursor" aria-hidden="true"><div class="cursor__ring"><span class="cursor__label"></span></div><div class="cursor__dot"></div></div>
+    <div class="cursor" aria-hidden="true"><div class="cursor__ring"><span class="cursor__label"></span></div></div>
 
-    <!-- Header -->
-    <header class="header">
-      <a href="#hero" class="brand" data-scroll-to="#hero" aria-label="ROOQ atelier home">
+    <!-- Site header: appears once you are past the hero, when scrolling up -->
+    <header class="site-header">
+      <a href="#hero" class="logo logo--sm" data-scroll-to="#hero">
         <svg viewBox="0 0 64 40" class="mark"><use href="#rooq-mark" /></svg>
-        <span>rooq <em>/</em> atelier</span>
+        <strong>ROOQ</strong><span>Clothing Atelier</span>
       </a>
-      <nav class="filters" aria-label="Filter drapes">
-        <button class="filter is-active" data-filter="all"><i></i>All</button>
-        <button class="filter" data-filter="silk"><i></i>Silk</button>
-        <button class="filter" data-filter="organza"><i></i>Organza</button>
-        <button class="filter" data-filter="velvet"><i></i>Velvet</button>
-        <button class="filter" data-filter="bridal"><i></i>Bridal</button>
-        <button class="filter" data-filter="festive"><i></i>Festive</button>
+      <nav class="site-nav">
+        <a href="#drape" data-scroll-to="#drape">Pick a Drape</a>
+        <a href="#hero" data-goto-slide="4">Collections</a>
+        <a href="#hero" data-goto-slide="0">About</a>
       </nav>
-      <button class="menu-btn" aria-expanded="false" aria-controls="menu"><span>Menu</span><i></i><i></i></button>
     </header>
 
-    <!-- Menu overlay -->
-    <div class="menu" id="menu" aria-hidden="true">
-      <div class="menu__bg"></div>
-      <nav class="menu__links">
-        <a href="#hero" data-scroll-to="#hero"><small>01</small><span>Collections</span></a>
-        <a href="#drape" data-scroll-to="#drape"><small>02</small><span>Pick a Drape</span></a>
-        <a href="#collection" data-scroll-to="#collection"><small>03</small><span>The Edit</span></a>
-        <a href="#craft" data-scroll-to="#craft"><small>04</small><span>Craft</span></a>
-        <a href="#contact" data-scroll-to="#contact"><small>05</small><span>Visit</span></a>
-      </nav>
-      <p class="menu__foot">Made slowly, by hand. <span>Placeholder studio · Your City</span></p>
-    </div>
-
     <main>
-      <!-- HERO: pinned, five chapters of flowing silk -->
+      <!-- HERO: five full-screen slides with fabric-sweep transitions -->
       <section class="hero" id="hero">
         <div class="hero__pin">
-          <div class="hero__silk" aria-hidden="true"></div>
-          <canvas class="hero__petals" aria-hidden="true"></canvas>
+          <div class="hero__media" aria-hidden="true"></div>
           <div class="hero__veil" aria-hidden="true"></div>
+          <canvas class="hero__petals" aria-hidden="true"></canvas>
 
-          <div class="hero__brand">
+          <a href="#hero" class="logo hero__logo" aria-label="ROOQ Clothing Atelier">
             <svg viewBox="0 0 64 40" class="mark"><use href="#rooq-mark" /></svg>
-            <strong>ROOQ</strong>
-            <span>Couture Atelier</span>
-          </div>
+            <strong>ROOQ</strong><span>Clothing Atelier</span>
+          </a>
 
-          <div class="hero__chapters">
-            <article class="chapter is-active" data-chapter="0">
-              <p class="chapter__eyebrow">01 · The House</p>
-              <h1 class="chapter__title split">Our Collections</h1>
-              <span class="rule"></span>
-              <p class="chapter__text">From everyday elegance<br />to grand occasions.</p>
+          <div class="slides">
+            <article class="slide" data-slide="0">
+              <p class="slide__eyebrow">Step into</p>
+              <h1 class="slide__title">Rooq</h1>
+              <span class="slide__rule"></span>
+              <p class="slide__text">A curated house of drapes,<br />weaves and quiet elegance.</p>
+              <a class="btn" href="#drape" data-scroll-to="#drape">Explore the Collection <svg viewBox="0 0 24 10"><path d="M0 5h22M18 1l4 4-4 4" /></svg></a>
+            </article>
+            <article class="slide" data-slide="1">
+              <p class="slide__eyebrow">The saree gallery</p>
+              <h2 class="slide__title">Sarees</h2>
+              <span class="slide__rule"></span>
+              <p class="slide__text">Drapes woven with<br />tradition and grace.</p>
+              <a class="btn btn--icon" href="#drape" data-filter-link="silk" aria-label="Explore sarees"><svg viewBox="0 0 24 10"><path d="M0 5h22M18 1l4 4-4 4" /></svg></a>
+            </article>
+            <article class="slide" data-slide="2">
+              <p class="slide__eyebrow">The lehenga room</p>
+              <h2 class="slide__title">Lehengas</h2>
+              <span class="slide__rule"></span>
+              <p class="slide__text">For celebrations<br />worth remembering.</p>
+              <a class="btn btn--icon" href="#drape" data-filter-link="bridal" aria-label="Explore lehengas"><svg viewBox="0 0 24 10"><path d="M0 5h22M18 1l4 4-4 4" /></svg></a>
+            </article>
+            <article class="slide" data-slide="3">
+              <p class="slide__eyebrow">New silhouettes</p>
+              <h2 class="slide__title">Fusion Wear</h2>
+              <span class="slide__rule"></span>
+              <p class="slide__text">Modern silhouettes,<br />rooted in craft.</p>
+              <a class="btn btn--icon" href="#drape" data-filter-link="festive" aria-label="Explore fusion wear"><svg viewBox="0 0 24 10"><path d="M0 5h22M18 1l4 4-4 4" /></svg></a>
+            </article>
+            <article class="slide" data-slide="4">
+              <p class="slide__eyebrow">Every occasion</p>
+              <h2 class="slide__title">Our Collections</h2>
+              <span class="slide__rule"></span>
+              <p class="slide__text">From quiet everyday wear<br />to grand occasions.</p>
               <a class="btn" href="#drape" data-scroll-to="#drape">Browse All Collection <svg viewBox="0 0 24 10"><path d="M0 5h22M18 1l4 4-4 4" /></svg></a>
             </article>
-            <article class="chapter" data-chapter="1">
-              <p class="chapter__eyebrow">02 · Organza</p>
-              <h2 class="chapter__title split">Weightless Light</h2>
-              <span class="rule"></span>
-              <p class="chapter__text">Sheer layers that hold<br />a blush of colour.</p>
-              <a class="btn" href="#drape" data-filter-link="organza">Explore Organza <svg viewBox="0 0 24 10"><path d="M0 5h22M18 1l4 4-4 4" /></svg></a>
-            </article>
-            <article class="chapter" data-chapter="2">
-              <p class="chapter__eyebrow">03 · Velvet</p>
-              <h2 class="chapter__title split">Midnight Pile</h2>
-              <span class="rule"></span>
-              <p class="chapter__text">Deep, quiet, and lit<br />by raised gold.</p>
-              <a class="btn" href="#drape" data-filter-link="velvet">Explore Velvet <svg viewBox="0 0 24 10"><path d="M0 5h22M18 1l4 4-4 4" /></svg></a>
-            </article>
-            <article class="chapter" data-chapter="3">
-              <p class="chapter__eyebrow">04 · Bridal</p>
-              <h2 class="chapter__title split">Woven Vows</h2>
-              <span class="rule"></span>
-              <p class="chapter__text">Heirloom borders for<br />the day that matters.</p>
-              <a class="btn" href="#drape" data-filter-link="bridal">Explore Bridal <svg viewBox="0 0 24 10"><path d="M0 5h22M18 1l4 4-4 4" /></svg></a>
-            </article>
-            <article class="chapter" data-chapter="4">
-              <p class="chapter__eyebrow">05 · Festive</p>
-              <h2 class="chapter__title split">After Dark</h2>
-              <span class="rule"></span>
-              <p class="chapter__text">Ink and rose, made<br />for long celebrations.</p>
-              <a class="btn" href="#drape" data-filter-link="festive">Explore Festive <svg viewBox="0 0 24 10"><path d="M0 5h22M18 1l4 4-4 4" /></svg></a>
-            </article>
           </div>
 
-          <div class="hero__num" aria-hidden="true"><span>01</span></div>
-
-          <nav class="hero__dots" aria-label="Collection chapters">
-            <button data-goto="0" class="is-active" aria-label="Collections"><span>House</span></button>
-            <button data-goto="1" aria-label="Organza"><span>Organza</span></button>
-            <button data-goto="2" aria-label="Velvet"><span>Velvet</span></button>
-            <button data-goto="3" aria-label="Bridal"><span>Bridal</span></button>
-            <button data-goto="4" aria-label="Festive"><span>Festive</span></button>
-            <i class="hero__dots-line"><b></b></i>
+          <nav class="dots" aria-label="Slides">
+            <button data-goto="0" class="is-active" aria-label="Rooq"></button>
+            <button data-goto="1" aria-label="Sarees"></button>
+            <button data-goto="2" aria-label="Lehengas"></button>
+            <button data-goto="3" aria-label="Fusion Wear"></button>
+            <button data-goto="4" aria-label="Our Collections"></button>
           </nav>
-
-          <div class="hero__scroll"><span>Scroll to unfold</span><i></i></div>
         </div>
       </section>
 
-      <!-- PICK A DRAPE: physics playground -->
+      <!-- PICK A DRAPE -->
       <section class="drape" id="drape">
-        <div class="drape__stage" aria-label="Interactive 3D drapes. Drag a drape and drop it on the card to view it."></div>
+        <div class="drape__bar">
+          <a href="#hero" class="drape__brand" data-scroll-to="#hero">
+            <svg viewBox="0 0 64 40" class="mark"><use href="#rooq-mark" /></svg>
+            <span>rooq <em>/</em> atelier</span>
+          </a>
+          <nav class="filters" aria-label="Filter drapes">
+            <button class="filter" data-filter="silk"><i></i>Silk</button>
+            <button class="filter" data-filter="organza"><i></i>Organza</button>
+            <button class="filter" data-filter="velvet"><i></i>Velvet</button>
+            <button class="filter" data-filter="bridal"><i></i>Bridal</button>
+            <button class="filter" data-filter="festive"><i></i>Festive</button>
+          </nav>
+        </div>
+        <div class="drape__stage" aria-label="Interactive 3D drapes. Drag a drape onto the card to view it."></div>
         <div class="drape__copy">
-          <h2 class="drape__title split">Pick a Drape</h2>
-          <span class="rule"></span>
+          <h2 class="drape__title">Pick a<br />Drape</h2>
+          <span class="slide__rule"></span>
           <p class="drape__sub">Lift one, let it go, and watch it settle.</p>
         </div>
         <div class="drape__foot">
           <p>A soft study of silk,<br />weight and light.</p>
-          <a href="#collection" class="link" data-scroll-to="#collection">View Collection <svg viewBox="0 0 24 10"><path d="M0 5h22M18 1l4 4-4 4" /></svg></a>
+          <a href="#hero" class="link" data-goto-slide="4">View Collection <svg viewBox="0 0 24 10"><path d="M0 5h22M18 1l4 4-4 4" /></svg></a>
         </div>
         <div class="dropzone" aria-hidden="true">
-          <svg class="dropzone__frame" viewBox="0 0 230 140" preserveAspectRatio="none">
-            <rect x="1" y="1" width="228" height="138" rx="14" />
-            <rect x="7" y="7" width="216" height="126" rx="10" class="inner" />
+          <svg class="dropzone__frame" viewBox="0 0 230 150" preserveAspectRatio="none">
+            <rect x="1" y="1" width="228" height="148" rx="12" />
+            <path class="corner" d="M14 30V18a4 4 0 0 1 4-4h12M200 14h12a4 4 0 0 1 4 4v12M216 120v12a4 4 0 0 1-4 4h-12M30 136H18a4 4 0 0 1-4-4v-12" />
           </svg>
           <div class="dropzone__icon">
-            <svg viewBox="0 0 48 40"><path d="M6 30 14 12h20l8 18Z" /><path d="M14 12c3 6 7 9 10 9s7-3 10-9" /><path d="M10 30h28v4H10z" /></svg>
+            <svg viewBox="0 0 48 40"><path d="M10 31 15 11h18l5 20Z" /><path d="M15 11c3 5 6 8 9 8s6-3 9-8" /><path d="M8 31h32v3H8z" /><path d="M14 12v-4h20v4" /></svg>
           </div>
           <p>Place Drape Here</p>
-          <svg viewBox="0 0 64 40" class="mark dropzone__mark"><use href="#rooq-mark" /></svg>
+          <div class="dropzone__orn"><i></i><svg viewBox="0 0 64 40" class="mark"><use href="#rooq-mark" /></svg><i></i></div>
           <span class="dropzone__pulse"></span>
         </div>
-        <p class="drape__hint"><i></i>Drag a drape onto the card</p>
       </section>
-
-      <!-- THE EDIT: horizontal gallery -->
-      <section class="edit" id="collection">
-        <div class="edit__pin">
-          <header class="edit__head">
-            <p class="eyebrow">03 · The Edit</p>
-            <h2 class="split">Six drapes,<br /><em>one</em> slow season.</h2>
-          </header>
-          <div class="edit__track"></div>
-          <div class="edit__progress"><i></i></div>
-        </div>
-      </section>
-
-      <!-- CRAFT -->
-      <section class="craft" id="craft">
-        <p class="eyebrow">04 · Craft</p>
-        <p class="craft__statement">
-          Every drape is cut, woven and finished by hand. We work in small runs, with threads that take weeks to dye and borders
-          that take months to embroider, so that what you wear carries the time it was made in.
-        </p>
-        <div class="stats">
-          <div class="stat"><b data-count="120">0</b><span>hours of zari per bridal border</span></div>
-          <div class="stat"><b data-count="38">0</b><span>artisans across four ateliers</span></div>
-          <div class="stat"><b data-count="6">0</b><span>drapes in this season’s edit</span></div>
-        </div>
-      </section>
-
-      <div class="marquee" aria-hidden="true">
-        <div class="marquee__row">
-          <span>Zardozi</span><i>✦</i><span>Gota patti</span><i>✦</i><span>Banarasi weave</span><i>✦</i><span>Resham</span><i>✦</i><span>Mukaish</span><i>✦</i><span>Kanjeevaram</span><i>✦</i>
-          <span>Zardozi</span><i>✦</i><span>Gota patti</span><i>✦</i><span>Banarasi weave</span><i>✦</i><span>Resham</span><i>✦</i><span>Mukaish</span><i>✦</i><span>Kanjeevaram</span><i>✦</i>
-        </div>
-      </div>
     </main>
-
-    <!-- FOOTER -->
-    <footer class="footer" id="contact">
-      <div class="footer__top">
-        <div>
-          <p class="eyebrow">05 · Visit</p>
-          <h2 class="split">Come feel<br />the fabric.</h2>
-        </div>
-        <form class="footer__form" onsubmit="event.preventDefault(); this.classList.add('is-sent')">
-          <label for="email">Letters from the atelier</label>
-          <div><input id="email" type="email" placeholder="you@example.com" required /><button type="submit" aria-label="Subscribe">→</button></div>
-          <small class="ok">Thank you. Your first letter is on its way.</small>
-        </form>
-      </div>
-      <div class="footer__word" aria-hidden="true"><span>R</span><span>O</span><span>O</span><span>Q</span></div>
-      <div class="footer__bottom">
-        <span>© ROOQ Atelier. Placeholder content.</span>
-        <span>Studio address · By appointment</span>
-        <a href="#hero" data-scroll-to="#hero">Back to top ↑</a>
-      </div>
-    </footer>
 
     <!-- DETAIL -->
     <div class="detail" aria-hidden="true" role="dialog" aria-label="Your selection">
@@ -222,19 +148,12 @@
       <div class="detail__inner">
         <div class="detail__stage"></div>
         <div class="detail__info">
-          <button class="detail__close" aria-label="Close">
-            <svg viewBox="0 0 20 20"><path d="M3 3l14 14M17 3 3 17" /></svg>
-          </button>
+          <button class="detail__close" aria-label="Close"><svg viewBox="0 0 20 20"><path d="M3 3l14 14M17 3 3 17" /></svg></button>
           <p class="eyebrow">Your Selection</p>
           <h3 class="detail__name"></h3>
-          <span class="rule"></span>
+          <span class="slide__rule"></span>
           <p class="detail__fabric"></p>
           <p class="detail__note"></p>
-          <div class="detail__actions">
-            <a href="#contact" class="btn btn--solid" data-detail-cta>Book a fitting</a>
-            <button class="link" data-detail-next>Next drape →</button>
-          </div>
-          <p class="detail__tip">Drag to turn the drape</p>
         </div>
       </div>
     </div>
