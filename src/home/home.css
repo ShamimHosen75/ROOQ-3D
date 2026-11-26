@@ -607,7 +607,7 @@ ul {
   position: absolute;
   inset: 0 0 auto 0;
   height: max(100svh, 640px);
-  padding: 2rem 1.5rem;
+  padding: 3rem 1.5rem 2rem;
 }
 .drapes__stage {
   position: absolute;
@@ -753,7 +753,7 @@ ul {
 }
 .drapes__tabs {
   position: absolute;
-  inset: 6rem 0 auto 0;
+  inset: 7rem 0 auto 0;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -947,7 +947,7 @@ ul {
 }
 @media (min-width: 768px) {
   .drapes__layer {
-    padding: 2.5rem var(--gut);
+    padding: 4rem var(--gut) 2.5rem;
   }
   .drapes__zone,
   .drapes__loading {
@@ -958,7 +958,7 @@ ul {
     top: 22%;
   }
   .drapes__tabs {
-    top: 2.25rem;
+    top: 3.75rem;
     gap: 0.25rem 1.25rem;
   }
   .pick__body {
