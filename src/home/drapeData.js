@@ -1,0 +1,91 @@
+export const TABS = [
+  { tag: 'Silk', dot: '#6b1424' },
+  { tag: 'Organza', dot: '#efc3b4' },
+  { tag: 'Velvet', dot: '#1d2154' },
+  { tag: 'Bridal', dot: '#e0566a' },
+  { tag: 'Festive', dot: '#d79a25' },
+];
+
+// Textures live in /public/drape: top-<id>-col/-rm/-h, edge-<id>-col/-rm and cut-<id>.
+export const SAREES = [
+  {
+    id: 'maroon',
+    name: 'Banarasi Maroon',
+    fabric: 'Pure silk · gold zari',
+    note: 'Woven buttas and a heavy brocade border — made for the wedding day.',
+    tags: ['Silk', 'Bridal', 'Festive'],
+    sheen: '#ffb38a',
+    weave: 'silk',
+    bump: 3.8,
+    shape: { h: 0.4, hollow: 0.1, rim: 0.1, ridge: 0.032, layers: 6.5, wave: 0.024 },
+  },
+  {
+    id: 'ivory',
+    name: 'Ivory Organza',
+    fabric: 'Organza · resham florals',
+    note: 'Featherlight, with hand-embroidered pink blooms and a gota border.',
+    tags: ['Organza', 'Bridal'],
+    sheen: '#fff1e2',
+    weave: 'organza',
+    bump: 1.7,
+    shape: { h: 0.34, hollow: 0.14, rim: 0.13, ridge: 0.036, layers: 5, wave: 0.034 },
+  },
+  {
+    id: 'navy',
+    name: 'Midnight Velvet',
+    fabric: 'Velvet · zardozi',
+    note: 'Deep navy pile with raised gold zardozi and ruby stones.',
+    tags: ['Velvet', 'Festive'],
+    sheen: '#5d6bd6',
+    weave: 'velvet',
+    bump: 5,
+    shape: { h: 0.42, hollow: 0.09, rim: 0.1, ridge: 0.03, layers: 7, wave: 0.02 },
+  },
+  {
+    id: 'black',
+    name: 'Noir Silk',
+    fabric: 'Silk · crimson resham',
+    note: 'Black silk with crimson and gold florals for evening occasions.',
+    tags: ['Silk', 'Festive'],
+    sheen: '#ffd2b0',
+    weave: 'silk',
+    bump: 4.4,
+    shape: { h: 0.38, hollow: 0.11, rim: 0.11, ridge: 0.033, layers: 6, wave: 0.028 },
+  },
+  {
+    id: 'yellow',
+    name: 'Haldi Organza',
+    fabric: 'Organza · chikan',
+    note: 'Sunlit yellow with ivory thread florals — a haldi favourite.',
+    tags: ['Organza', 'Festive'],
+    sheen: '#fff4c8',
+    weave: 'organza',
+    bump: 2.8,
+    shape: { h: 0.36, hollow: 0.13, rim: 0.12, ridge: 0.035, layers: 5.5, wave: 0.03 },
+  },
+];
+
+// Starting spots as fractions of the play area; these three start out hovering.
+export const LAYOUT = {
+  saree: [
+    { id: 'maroon', x: 0.1, z: 0.11, ry: 0.35 },
+    { id: 'ivory', x: -0.29, z: -0.04, ry: -0.25 },
+    { id: 'navy', x: 0.55, z: -0.18, ry: 0.2 },
+    { id: 'black', x: -0.2, z: 0.68, ry: 0.18 },
+    { id: 'yellow', x: 0.38, z: 0.42, ry: -0.12 },
+  ],
+  floating: ['ivory', 'maroon', 'navy'],
+  petal: [
+    { x: -0.66, z: -0.3, k: 1.2 },
+    { x: 0.76, z: 0.21, k: 1.35 },
+    { x: -0.54, z: 0.4, k: 0.62 },
+    { x: -0.02, z: 0.58, k: 0.95 },
+    { x: 0.3, z: -0.42, k: 1.25 },
+    { x: -0.47, z: 0.88, k: 0.58 },
+    { x: -0.76, z: 0.31, k: 0.9 },
+    { x: -0.14, z: 0.3, k: 1.3 },
+    { x: 0.09, z: 0.61, k: 0.66 },
+    { x: 0.81, z: 0.85, k: 0.85 },
+    { x: 0.36, z: 0.95, k: 1.15 },
+  ],
+};
