@@ -8,6 +8,7 @@ import { HeroSlider } from './heroSlider.js';
 import { HeroPetals } from './heroPetals.js';
 import { Playground } from './playground.js';
 import { Viewer } from './viewer.js';
+import { setupCollection } from './collection.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -301,6 +302,7 @@ slider = new HeroSlider($('.hero__media'), SLIDES, {
 });
 setupDrape();
 setupHero();
+setupCollection({ reduced });
 gsap.ticker.add((time) => {
   slider.tick();
   heroPetals.tick(time);

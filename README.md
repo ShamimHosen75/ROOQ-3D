@@ -27,6 +27,8 @@ The hero uses five images in `public/images/`:
 
 The files there now are generated stand-ins (flowing fabric on a blush sky). Replace them with your own model photos, 1920x1080 or larger, landscape, with the subject on the right and space on the left for the text. Keep the same file names and nothing else needs to change. To regenerate the stand-ins: `node tools/render-standins.cjs`.
 
+The "Sarees" product grid uses `public/images/product-1.jpg` to `product-8.jpg` (square-ish portrait crops, about 800x830, on the `#f4e2db` background). Product names, prices, tags and filter categories are in `src/js/products.js`.
+
 Slide copy lives in `index.html`; drape names, notes and colours in `src/js/drapes.js`. All copy is placeholder.
 
 ## What's on the page
@@ -34,6 +36,10 @@ Slide copy lives in `index.html`; drape names, notes and colours in `src/js/drap
 **Hero (5 slides, pinned while you scroll).** Each scroll step snaps to the next slide. The change plays a fabric sweep in WebGL: a close-up of the next garment flows in from the left behind a wavy gold-edged front, then pulls back and settles while the image slowly zooms out. Titles rise letter by letter out of a blur and the paragraph types in. Dots on the right jump between slides; petals drift and scatter from the cursor.
 
 **Pick a Drape.** Five folded drapes float and bob above a soft floor with large shadows while 3D rose petals fall. Grab one to lift it (it sways from a spring), let go and it drops and settles, or drop it on the **Place Drape Here** card to open the detail view. The filters (Silk, Organza, Velvet, Bridal, Festive) fade the others and make matching drapes hop.
+
+**Sarees (product grid).** Eyebrow, title and description, then filter pills (All, Silk, Organza, Banarasi, Velvet, Festive) and a 4-column grid of cards with name, price, tags and a save heart. Cards rise in as they scroll into view; filtering fades the grid out, reflows it and fades the matches back in.
+
+**Footer.** Dark brown band with the logo, store address, hours and phone.
 
 **Detail view.** Blurred background, the chosen drape turning in 3D (drag to spin), name, fabric and a short note.
 
@@ -54,6 +60,8 @@ src/js/
   drapes.js      drape catalogue + procedural fabric textures
   petals.js      instanced 3D rose petals
   viewer.js      detail-view 3D viewer
+  collection.js  product grid: cards, reveal, filtering
+  products.js    product data
   split.js       text splitting for reveals
 tools/           stand-in image renderer
 ```

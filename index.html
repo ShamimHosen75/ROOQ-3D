@@ -36,8 +36,8 @@
       </a>
       <nav class="site-nav">
         <a href="#drape" data-scroll-to="#drape">Pick a Drape</a>
-        <a href="#hero" data-goto-slide="4">Collections</a>
-        <a href="#hero" data-goto-slide="0">About</a>
+        <a href="#collections" data-scroll-to="#collections">Collections</a>
+        <a href="#about" data-scroll-to="#about">About</a>
       </nav>
     </header>
 
@@ -125,7 +125,7 @@
         </div>
         <div class="drape__foot">
           <p>A soft study of silk,<br />weight and light.</p>
-          <a href="#hero" class="link" data-goto-slide="4">View Collection <svg viewBox="0 0 24 10"><path d="M0 5h22M18 1l4 4-4 4" /></svg></a>
+          <a href="#collections" class="link" data-scroll-to="#collections">View Collection <svg viewBox="0 0 24 10"><path d="M0 5h22M18 1l4 4-4 4" /></svg></a>
         </div>
         <div class="dropzone" aria-hidden="true">
           <svg class="dropzone__frame" viewBox="0 0 230 150" preserveAspectRatio="none">
@@ -140,7 +140,38 @@
           <span class="dropzone__pulse"></span>
         </div>
       </section>
+
+      <!-- COLLECTIONS: product grid -->
+      <section class="collection" id="collections">
+        <header class="collection__head">
+          <p class="collection__eyebrow">Collections</p>
+          <h2 class="collection__title">Sarees</h2>
+          <p class="collection__desc">A curated edit of handloom silks and hand-embroidered drapes.</p>
+        </header>
+        <div class="pills" role="tablist" aria-label="Filter sarees">
+          <button class="pill is-active" data-cat="all">All</button>
+          <button class="pill" data-cat="silk">Silk</button>
+          <button class="pill" data-cat="organza">Organza</button>
+          <button class="pill" data-cat="banarasi">Banarasi</button>
+          <button class="pill" data-cat="velvet">Velvet</button>
+          <button class="pill" data-cat="festive">Festive</button>
+        </div>
+        <div class="grid"></div>
+      </section>
     </main>
+
+    <footer class="footer" id="about">
+      <a href="#hero" class="logo footer__logo" data-scroll-to="#hero">
+        <svg viewBox="0 0 64 40" class="mark"><use href="#rooq-mark" /></svg>
+        <strong>ROOQ</strong><span>Clothing Atelier</span>
+      </a>
+      <address class="footer__info">
+        <span>Store address · City</span>
+        <span>Open daily · 10:30 am – 9 pm</span>
+        <a href="tel:+910000000000">+91 00000 00000</a>
+      </address>
+      <p class="footer__copy">© ROOQ Clothing Atelier. All rights reserved.</p>
+    </footer>
 
     <!-- DETAIL -->
     <div class="detail" aria-hidden="true" role="dialog" aria-label="Your selection">
