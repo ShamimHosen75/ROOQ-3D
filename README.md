@@ -37,7 +37,7 @@ Slide copy and the fabric/silhouette regions are in `src/home/heroData.js`; drap
 
 ## Content you will want to replace
 
-- `src/home/products.js`: the catalogue (names, prices, tags, story, details). Images are `public/collection/<id>.webp`.
+- `src/home/products.js`: the catalogue (names, prices in BDT, tags, story, details). Prices print as ৳ with `taka()`. Images are `public/collection/<id>.webp`.
 - `src/home/reviewsData.js`: sample reviews. Replace with real ones (with permission) before going live.
 - `src/home/store.js`: address, hours, phone, email and social links used in the footer and on Contact.
 

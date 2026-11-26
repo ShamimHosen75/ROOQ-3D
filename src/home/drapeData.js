@@ -54,9 +54,9 @@ export const SAREES = [
   },
   {
     id: 'yellow',
-    name: 'Haldi Organza',
+    name: 'Holud Organza',
     fabric: 'Organza · chikan',
-    note: 'Sunlit yellow with ivory thread florals — a haldi favourite.',
+    note: 'Sunlit yellow with ivory thread florals — a gaye holud favourite.',
     tags: ['Organza', 'Festive'],
     sheen: '#fff4c8',
     weave: 'organza',

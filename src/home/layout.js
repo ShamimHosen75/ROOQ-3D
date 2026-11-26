@@ -86,7 +86,7 @@ function footer() {
     </div>
     <div class="ft__bottom">
       <p>© <span class="js-year"></span> Rooq Clothing Atelier</p>
-      <p>Handloom · Finished by hand · Made in India</p>
+      <p>Handloom · Finished by hand · Developed by Shamim</p>
       <a href="#top" class="ft__up" data-top>Back to top <svg><use href="#arrow" /></svg></a>
     </div>
   </footer>`;

@@ -2,7 +2,7 @@ import { gsap, $, $$, reduced } from '../core.js';
 import { bootPage } from '../page.js';
 import { leaveTo } from '../chrome.js';
 import { card, saveButton } from '../collection.js';
-import { PIECES, photos, inr, byId } from '../products.js';
+import { PIECES, photos, taka, byId } from '../products.js';
 import { REVIEWS, reviewsFor } from '../reviewsData.js';
 import { setupReviews } from '../reviews.js';
 
@@ -20,7 +20,7 @@ bootPage('product', () => {
   $('.pd__tags').textContent = p.tags.join(' · ');
   $('.pd__name').textContent = p.name;
   $('.js-save').replaceWith(saveButton(p.id));
-  $('.pd__price').textContent = inr(p.price);
+  $('.pd__price').textContent = taka(p.price);
   $('.pd__desc').textContent = p.desc;
   p.notes.forEach((n) => {
     const s = document.createElement('span');

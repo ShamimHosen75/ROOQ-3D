@@ -1,5 +1,5 @@
 import { ScrollTrigger, gsap, reduced, lenisNow } from './core.js';
-import { byId, inr } from './products.js';
+import { byId, taka } from './products.js';
 
 /*
  * Virtual fitting. One model stands in the middle; as the section is scrolled (or dragged,
@@ -45,8 +45,8 @@ function piecesFor(l) {
   const p = byId(l.id);
   const src = `/collection/${l.id}.webp`;
   const first = l.folded
-    ? { href: `/drape/cut-${l.folded}.webp`, box: [36, 4, 832, 592], sheet: [900, 600], name: p.name, price: inr(p.price) }
-    : { href: src, box: [120, 300, 700, 597], sheet: [SHEET.w, SHEET.h], name: p.name, price: inr(p.price) };
+    ? { href: `/drape/cut-${l.folded}.webp`, box: [36, 4, 832, 592], sheet: [900, 600], name: p.name, price: taka(p.price) }
+    : { href: src, box: [120, 300, 700, 597], sheet: [SHEET.w, SHEET.h], name: p.name, price: taka(p.price) };
   const second = { href: src, box: [430, 560, 380, 337], sheet: [SHEET.w, SHEET.h], name: `${p.notes[1]}, up close`, price: p.notes[0] };
   return [first, second].map((x) => ({ ...x, id: p.id }));
 }

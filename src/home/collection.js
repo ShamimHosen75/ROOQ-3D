@@ -1,6 +1,6 @@
 import { gsap, ScrollTrigger, $, $$, lenisNow } from './core.js';
 
-import { PIECES, FILTERS, photos, inr } from './products.js';
+import { PIECES, FILTERS, photos, taka } from './products.js';
 
 export { PIECES };
 const heart = '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#heart" /></svg>';
@@ -75,7 +75,7 @@ export function card(p, open) {
   a.appendChild(media);
   const row = el('div', 'piece__row');
   row.append(el('h3', '', p.name), saveButton(p.id));
-  a.append(row, el('p', 'piece__price', inr(p.price)), el('p', 'piece__notes', p.notes.join('  |  ')));
+  a.append(row, el('p', 'piece__price', taka(p.price)), el('p', 'piece__notes', p.notes.join('  |  ')));
   a.addEventListener('click', () => open(p));
   a.addEventListener('keydown', (e) => (e.key === 'Enter' || e.key === ' ') && e.target === a && (e.preventDefault(), open(p)));
   if (p.poses) poseWipe(media, p);
@@ -161,7 +161,7 @@ export function quickView() {
     const trust = el('div', 'qv__trust', ['Secure Payment', 'Easy Returns', 'Authentic Silk'].map((t, i) => `<span>${i ? '<i></i>' : ''}${t}</span>`).join(''));
     const more = el('a', 'qv__more', 'View full details <svg aria-hidden="true"><use href="#arrow" /></svg>');
     more.href = `/product.html?id=${piece.id}`;
-    right.append(top, el('p', 'qv__price', inr(piece.price)), notes, el('p', 'qv__desc', piece.desc), el('div', 'qv__hr'), qtyRow, buy, cart, trust, more);
+    right.append(top, el('p', 'qv__price', taka(piece.price)), notes, el('p', 'qv__desc', piece.desc), el('div', 'qv__hr'), qtyRow, buy, cart, trust, more);
     grid.append(left, right);
     const orn = el('div', 'qv__orn', '<i></i><svg aria-hidden="true"><use href="#lotus" /></svg><i></i>');
     cardEl.append(x, grid, orn);
