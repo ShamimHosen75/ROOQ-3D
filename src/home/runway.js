@@ -151,17 +151,15 @@ export function setupRunway(root) {
       lastA = a;
       lastB = b;
     }
-    // the new colour runs down the drape from the shoulder to the hem
-    const edge = -18 + t * 136;
-    const m = `linear-gradient(172deg, #000 ${edge - 14}%, transparent ${edge + 6}%)`;
-    layers[b].style.webkitMaskImage = m;
-    layers[b].style.maskImage = m;
-    layers[a].style.webkitMaskImage = 'none';
-    layers[a].style.maskImage = 'none';
-    // zari light riding the edge, only on the fabric
+    // the whole saree changes at once: the six photos are pixel-aligned, so only the fabric shifts colour
+    const k = t * t * (3 - 2 * t);
+    layers[b].style.opacity = k.toFixed(4);
+    layers[a].style.opacity = '1';
+    // a soft zari light sweeps the whole drape, shoulder to hem, while it changes
     const live = t > 0.002 && t < 0.998;
-    glint.style.opacity = live ? String(Math.sin(t * Math.PI) * 0.95) : '0';
-    glint.style.setProperty('--edge', `${edge - 4}%`);
+    const edge = -10 + k * 120;
+    glint.style.opacity = live ? String(Math.sin(t * Math.PI) * 0.8) : '0';
+    glint.style.setProperty('--edge', `${edge}%`);
     // her body answers the change: a lift, a half-turn of the shoulders, then settles
     const s = Math.sin(t * Math.PI);
     const dir = target >= p ? 1 : -1;
@@ -202,7 +200,7 @@ export function setupRunway(root) {
   let visible = false;
   let last = 0;
   const PULL = () => Math.max(150, stage.clientWidth * 0.2);
-  const setTarget = () => (target = scrollPart + manual);
+  const setTarget = () => (target = Math.round(scrollPart + manual)); // always a whole look, never half a saree
   const jump = (i) => {
     const d = Math.round(wrap(i - Math.round(target), N));
     manual = Math.round(manual) + (d > N / 2 ? d - N : d);
@@ -215,8 +213,13 @@ export function setupRunway(root) {
     const dt = Math.min(50, now - last) || 16;
     last = now;
     if (reduced()) p = target;
-    else p += (target - p) * (1 - Math.exp(-dt * 0.0072));
-    if (Math.abs(target - p) < 0.0004) p = target;
+    else {
+      // slow and silky: an eased chase, capped at about one saree per 1.1 s so every colour is seen
+      const step = (target - p) * (1 - Math.exp(-dt * 0.0042));
+      const cap = dt / 1100;
+      p += Math.max(-cap, Math.min(cap, step));
+    }
+    if (Math.abs(target - p) < 0.0006) p = target;
     paint(now);
     dirty = false;
     cx += (mx - cx) * 0.32;
@@ -274,31 +277,29 @@ export function setupRunway(root) {
 
   /* ---- page scroll changes the saree: the section pins for one step per look ---- */
   const STEPS = N - 1;
+  // inside the fitting the page scrolls slower and softer, so each change can be watched
+  const slow = (on) => {
+    const l = lenisNow();
+    if (!l) return;
+    l.options.lerp = on ? 0.035 : 0.072;
+    l.options.wheelMultiplier = on ? 0.45 : 0.9;
+    l.options.touchMultiplier = on ? 0.7 : 1.2;
+  };
   const pin = ScrollTrigger.create({
     trigger: root,
     start: 'top top',
-    end: () => `+=${Math.round(window.innerHeight * 0.6 * STEPS)}`,
+    end: () => `+=${Math.round(window.innerHeight * 1.0 * STEPS)}`,
     pin: true,
     anticipatePin: 1,
+    onToggle: (self) => slow(self.isActive),
     onUpdate: (self) => {
       scrollPart = self.progress * STEPS;
       setTarget();
     },
   });
-  // 160 ms after the scroll stops inside the pin, settle softly on the nearest whole look
-  let snapT = 0;
-  lenisNow()?.on('scroll', () => {
-    clearTimeout(snapT);
-    snapT = setTimeout(() => {
-      const l = lenisNow();
-      if (!pin.isActive || !l || down) return;
-      const step = (pin.end - pin.start) / STEPS;
-      const to = pin.start + Math.round((l.targetScroll - pin.start) / step) * step;
-      if (Math.abs(to - l.targetScroll) > 2) l.scrollTo(to, { duration: 0.9, easing: (e) => 1 - (1 - e) ** 3 });
-    }, 160);
-  });
+  slow(pin.isActive);
   ScrollTrigger.create({
-    trigger: root,
+    trigger: root.parentElement, // the pin spacer spans the whole pinned run
     start: 'top bottom',
     end: 'bottom top',
     onToggle: (self) => {

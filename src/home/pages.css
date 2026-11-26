@@ -260,7 +260,7 @@
   place-items: center;
   min-height: 80vh;
   overflow: hidden;
-  padding: 6rem 1.5rem;
+  padding: 7.5rem 1.5rem;
   color: #fff8f1;
   text-align: center;
   isolation: isolate;
@@ -540,7 +540,7 @@
 .pd__story {
   display: grid;
   gap: 3rem;
-  padding: 5rem 1.5rem;
+  padding: 6.25rem 1.5rem;
   border-top: 1px solid rgb(58 36 24 / 0.1);
 }
 .pd__storytext {
@@ -574,7 +574,7 @@
     grid-template-columns: 1.08fr 1fr;
     gap: 5vw;
     align-items: start;
-    padding: 9.5rem var(--gut) 6rem;
+    padding: 12rem var(--gut) 7.5rem;
   }
   .pd__gallery {
     position: sticky;
@@ -593,7 +593,7 @@
   .pd__story {
     grid-template-columns: 1.3fr 1fr;
     gap: 6vw;
-    padding: 7rem var(--gut);
+    padding: 8.75rem var(--gut);
   }
   .pd__morehead {
     flex-direction: row;
@@ -682,7 +682,7 @@
 .story {
   display: grid;
   gap: 3rem;
-  padding: 5rem 1.5rem;
+  padding: 6.25rem 1.5rem;
 }
 .story__media {
   overflow: hidden;
@@ -712,7 +712,7 @@
 .values,
 .process,
 .faq {
-  padding: 5rem 1.5rem;
+  padding: 6.25rem 1.5rem;
 }
 .values__head,
 .process__head,
@@ -796,7 +796,7 @@
   flex-direction: column;
   align-items: center;
   gap: 1.75rem;
-  padding: 6rem 1.5rem;
+  padding: 7.5rem 1.5rem;
   text-align: center;
 }
 .quote__mark {
@@ -826,12 +826,12 @@
   .story {
     grid-template-columns: 1fr 1fr;
     gap: 6vw;
-    padding: 7rem var(--gut);
+    padding: 8.75rem var(--gut);
   }
   .values,
   .process,
   .faq {
-    padding: 7rem var(--gut);
+    padding: 8.75rem var(--gut);
   }
   .values__head,
   .process__head,
@@ -863,7 +863,7 @@
     transform-origin: left;
   }
   .quote {
-    padding: 9rem var(--gut);
+    padding: 11.25rem var(--gut);
   }
 }
 
@@ -871,7 +871,7 @@
 .ct {
   display: grid;
   gap: 3rem;
-  padding: 2rem 1.5rem 5rem;
+  padding: 2.5rem 1.5rem 6.25rem;
 }
 .ct__info {
   display: grid;
@@ -984,7 +984,7 @@
   .ct {
     grid-template-columns: 1fr 1.4fr;
     gap: 4vw;
-    padding: 2rem var(--gut) 6rem;
+    padding: 2.5rem var(--gut) 7.5rem;
   }
   .field-row {
     grid-template-columns: 1fr 1fr;

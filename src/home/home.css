@@ -989,7 +989,7 @@ ul {
 .coll {
   position: relative;
   background: var(--blush);
-  padding: 6rem 1.5rem;
+  padding: 7.5rem 1.5rem;
 }
 .coll__head {
   display: flex;
@@ -1128,7 +1128,7 @@ ul {
 }
 @media (min-width: 768px) {
   .coll {
-    padding: 8rem var(--gut);
+    padding: 10rem var(--gut);
   }
   .coll__head {
     flex-direction: row;
@@ -1527,7 +1527,7 @@ ul {
 .rv {
   position: relative;
   overflow: hidden;
-  padding: 6rem 0 0;
+  padding: 7.5rem 0 0;
   background: linear-gradient(180deg, var(--blush) 0%, #efd8cb 100%);
 }
 .rv__in {
@@ -1792,7 +1792,7 @@ ul {
 }
 @media (min-width: 768px) {
   .rv {
-    padding-top: 8rem;
+    padding-top: 10rem;
   }
   .rv__in {
     padding: 0 var(--gut);
@@ -1811,7 +1811,7 @@ ul {
 .ft {
   position: relative;
   overflow: hidden;
-  padding: 5rem 1.5rem 1.75rem;
+  padding: 6.25rem 1.5rem 2.25rem;
   background: #24160e;
   color: #f3e4dc;
   isolation: isolate;
@@ -2081,7 +2081,7 @@ ul {
 }
 @media (min-width: 768px) {
   .ft {
-    padding: 7rem var(--gut) 2rem;
+    padding: 8.75rem var(--gut) 2.5rem;
   }
   .ft__top {
     grid-template-columns: 1.7fr 1fr 1fr 1.25fr;
@@ -2513,7 +2513,7 @@ ul {
   position: relative;
   display: grid;
   place-items: center;
-  padding: 4.5rem 1rem 3.5rem;
+  padding: 5.5rem 1rem 4.5rem;
   background-color: #23473d;
   background-image: repeating-linear-gradient(0deg, rgb(255 255 255 / 0.028) 0 1px, transparent 1px 4px),
     repeating-linear-gradient(90deg, rgb(0 0 0 / 0.05) 0 1px, transparent 1px 4px);
@@ -2527,7 +2527,7 @@ ul {
 }
 @media (max-width: 767px) {
   .loom {
-    padding: 3rem 0 2.5rem;
+    padding: 3.75rem 0 3rem;
   }
   .loom__svg {
     width: 150%;
