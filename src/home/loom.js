@@ -7,9 +7,9 @@ import { FIGURE_DEFS, WEAVER_SVG, SPINNER_SVG, ARM_ORIGIN, CRANK_ORIGIN } from '
  * with the ROOQ mark, then a red one with a thank-you, then round again.
  */
 const C = {
-  frame: '#8a8462',
-  frameDark: '#6f6a4d',
-  warp: 'rgba(238, 232, 214, 0.62)',
+  frame: '#a8835a',
+  frameDark: '#7d5f40',
+  warp: 'rgba(90, 63, 48, 0.38)',
   magenta: '#9a1d57',
   red: '#a1071b',
   ivory: '#ece5d2',
@@ -94,7 +94,7 @@ export function setupLoom(root) {
         <rect x="262" y="22" width="20" height="560" rx="6" fill="${C.frame}" />
         <rect x="1258" y="22" width="20" height="560" rx="6" fill="${C.frame}" />
         <rect x="262" y="48" width="1028" height="22" rx="10" fill="${C.frame}" />
-        <circle cx="246" cy="58" r="16" fill="#a8a280" />
+        <circle cx="246" cy="58" r="16" fill="#c19a6b" />
         <g stroke="${C.warp}" stroke-width="1.6">${warp()}</g>
         <rect x="282" y="134" width="976" height="6" fill="${C.frame}" opacity=".85" />
         <rect class="loom__reed" x="282" y="${CL.y - 48}" width="976" height="12" rx="4" fill="${C.frame}" />
@@ -102,7 +102,7 @@ export function setupLoom(root) {
         <path class="loom__thread" d="" stroke="${C.magenta}" stroke-width="2" fill="none" />
         <g class="loom__shuttle"><path d="M-48 0c18 -12 78 -12 96 0c-18 12 -78 12 -96 0z" fill="${C.ivory}" /><rect x="-20" y="-4" width="40" height="8" rx="4" fill="${C.magenta}" /></g>
         <rect x="240" y="${FELL_BOTTOM + 2}" width="1060" height="26" rx="13" fill="${C.frame}" />
-        <circle cx="1290" cy="${FELL_BOTTOM + 2}" r="18" fill="#a8a280" /><ellipse cx="1312" cy="${FELL_BOTTOM + 22}" rx="16" ry="10" fill="${C.ivory}" opacity=".8" />
+        <circle cx="1290" cy="${FELL_BOTTOM + 2}" r="18" fill="#c19a6b" /><ellipse cx="1312" cy="${FELL_BOTTOM + 22}" rx="16" ry="10" fill="${C.ivory}" opacity=".8" />
         <rect x="226" y="${FELL_BOTTOM + 44}" width="96" height="12" rx="6" fill="${C.frameDark}" /><rect x="1230" y="${FELL_BOTTOM + 44}" width="96" height="12" rx="6" fill="${C.frameDark}" />
       </g>
       <path d="M1502 ${FELL_BOTTOM + 22}c40 0 60 -10 80 -30" stroke="${C.ivory}" stroke-width="1.5" fill="none" opacity=".7" />
