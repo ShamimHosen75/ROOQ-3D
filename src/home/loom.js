@@ -13,6 +13,7 @@ const C = {
   magenta: '#9a1d57',
   red: '#a1071b',
   ivory: '#ece5d2',
+  gold: '#b08440',
   skin: '#b27a54',
   skinDark: '#94603f',
   hair: '#2a1f1a',
@@ -64,21 +65,25 @@ function clothRed() {
   let lines = '';
   for (let y = CL.y + 3; y < FELL_BOTTOM; y += 6) lines += `<line x1="${CL.x}" y1="${y}" x2="${CL.x + CL.w}" y2="${y}" />`;
   return `<g class="loom__cloth loom__cloth--b">
-    <defs><linearGradient id="loom-red" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ae0a1f" /><stop offset="1" stop-color="#8d0716" /></linearGradient></defs>
-    <rect x="${CL.x}" y="${CL.y}" width="${CL.w}" height="${CL.h}" fill="url(#loom-red)" />
-    <g stroke="rgba(0,0,0,0.07)" stroke-width="1.5">${lines}</g>
-    <rect x="${CL.x}" y="${CL.y}" width="70" height="${CL.h}" fill="${C.brown}" />
-    <rect x="${CL.x + CL.w - 70}" y="${CL.y}" width="70" height="${CL.h}" fill="${C.brown}" />
-    <rect x="${CL.x + 62}" y="${CL.y}" width="6" height="${CL.h}" fill="${C.ivory}" />
-    <rect x="${CL.x + CL.w - 68}" y="${CL.y}" width="6" height="${CL.h}" fill="${C.ivory}" />
-    ${diamonds(CL.x + 33, '#fff')}${diamonds(CL.x + CL.w - 33, '#fff')}
-    <g fill="${C.ivory}" opacity=".85">
-      <rect x="${CL.x + 84}" y="${CL.y + 10}" width="${CL.w - 168}" height="4" /><rect x="${CL.x + 84}" y="${CL.y + 20}" width="${CL.w - 168}" height="3" />
-      <rect x="${CL.x + 84}" y="${FELL_BOTTOM - 26}" width="${CL.w - 168}" height="3" /><rect x="${CL.x + 84}" y="${FELL_BOTTOM - 17}" width="${CL.w - 168}" height="4" />
+    <defs>
+      <linearGradient id="loom-ink" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4b2d20" /><stop offset="1" stop-color="#2f1c13" /></linearGradient>
+      <linearGradient id="loom-zari" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e9cd8f" /><stop offset=".5" stop-color="#c9a463" /><stop offset="1" stop-color="#f1dcaa" /></linearGradient>
+    </defs>
+    <rect x="${CL.x}" y="${CL.y}" width="${CL.w}" height="${CL.h}" fill="url(#loom-ink)" />
+    <g stroke="rgba(255,236,200,0.045)" stroke-width="1.5">${lines}</g>
+    <rect x="${CL.x}" y="${CL.y}" width="70" height="${CL.h}" fill="${C.gold}" />
+    <rect x="${CL.x + CL.w - 70}" y="${CL.y}" width="70" height="${CL.h}" fill="${C.gold}" />
+    <rect x="${CL.x + 66}" y="${CL.y}" width="4" height="${CL.h}" fill="${C.ivory}" opacity=".7" />
+    <rect x="${CL.x + CL.w - 70}" y="${CL.y}" width="4" height="${CL.h}" fill="${C.ivory}" opacity=".7" />
+    ${diamonds(CL.x + 33, C.ivory)}${diamonds(CL.x + CL.w - 33, C.ivory)}
+    <g fill="url(#loom-zari)">
+      <rect x="${CL.x + 84}" y="${CL.y + 10}" width="${CL.w - 168}" height="3" /><rect x="${CL.x + 84}" y="${CL.y + 19}" width="${CL.w - 168}" height="1.5" />
+      <rect x="${CL.x + 84}" y="${FELL_BOTTOM - 21}" width="${CL.w - 168}" height="1.5" /><rect x="${CL.x + 84}" y="${FELL_BOTTOM - 13}" width="${CL.w - 168}" height="3" />
     </g>
-    <text x="${cx}" text-anchor="middle" fill="#fff" font-family="DM Sans, sans-serif" font-weight="700" font-size="50" letter-spacing="-0.5">
-      <tspan x="${cx}" y="${CL.y + 98}">Thank you for</tspan><tspan x="${cx}" y="${CL.y + 152}">completing your</tspan><tspan x="${cx}" y="${CL.y + 206}">journey with us</tspan>
+    <text x="${cx}" text-anchor="middle" fill="url(#loom-zari)" font-family="Cormorant Garamond, serif" font-style="italic" font-weight="700" font-size="60" letter-spacing="0.5">
+      <tspan x="${cx}" y="${CL.y + 96}">Thank you for</tspan><tspan x="${cx}" y="${CL.y + 154}">completing your</tspan><tspan x="${cx}" y="${CL.y + 212}">journey with us</tspan>
     </text>
+    <use href="#lotus" x="${cx - 18}" y="${CL.y + 226}" width="36" height="22" color="#c9a463" />
   </g>`;
 }
 
